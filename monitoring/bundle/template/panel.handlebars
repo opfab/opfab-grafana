@@ -1,0 +1,30 @@
+
+
+
+<iframe id="dashboard" src="" width="100%" height="400" frameborder="0"></iframe>
+
+<br>
+
+<a href="javascript:opfab.navigate.redirectToBusinessMenu('uid_test_1')">Show Dashboard</a>
+
+<script>
+    
+    cardTemplate = {
+        
+        initDashboard: function() {
+            let grafanaTheme = "dark";
+            let opfabTheme = document.body.getAttribute("opfab-theme");
+            if (opfabTheme == "DAY") 
+                grafanaTheme="light";
+
+            let source = "{{{card.data.url}}}&theme="+grafanaTheme;
+            document.getElementById('dashboard').setAttribute("src", encodeURI(source));
+            
+        }
+    }
+    cardTemplate.initDashboard();
+    opfab.currentCard.listenToStyleChange(() => {
+        cardTemplate.initDashboard();
+    });
+
+</script>

@@ -1,0 +1,3 @@
+operatorfabric.businessconfig:
+  storage:
+    path: "/businessconfig-storage"

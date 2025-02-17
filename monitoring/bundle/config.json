@@ -1,0 +1,17 @@
+{
+	"id":"monitoringProcess",
+	"name": "process.name",
+	"version":"2",
+	"states":{
+		"panelState" : {
+			"templateName" : "panel",
+			"styles" : [ "style" ],
+			"acknowledgmentAllowed": "Always"
+		},
+		"dashboardState" : {
+			"templateName" : "dashboard",
+			"styles" : [ "style" ],
+			"acknowledgmentAllowed": "Always"
+		}
+	}
+}

@@ -1,0 +1,7 @@
+*.env
+.idea/*
+*.tar.gz
+
+server/businessconfig-storage/*
+node-service-test/node_modules
+node-service-test/build

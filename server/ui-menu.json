@@ -1,0 +1,109 @@
+{
+  "navigationBar": [
+    {
+      "opfabCoreMenuId": "feed"
+    },
+    {
+      "opfabCoreMenuId": "archives"
+    },
+    {
+      "id": "menu1",
+      "entries": [
+        {
+          "customMenuId": "uid_test_0",
+          "url": "https://opfab.github.io/",
+          "label": "menu1.entry.single",
+          "linkType": "BOTH"
+        }
+      ]
+    },
+    {
+      "id": "menu2",
+      "entries": [
+        {
+          "customMenuId": "uid_test_1",
+          "url": "/grafana.html",
+          "label": "menu2.entry.single",
+          "linkType": "BOTH"
+        }
+      ]
+    }
+  ],
+  "topRightIconMenus": [
+    {
+      "opfabCoreMenuId": "usercard",
+      "visible": true
+    },
+    {
+      "opfabCoreMenuId": "calendar",
+      "visible": true
+    }
+  ],
+  "topRightMenus": [
+    {
+      "opfabCoreMenuId": "admin",
+      "visible": true,
+      "showOnlyForGroups": ["ADMIN"]
+    },
+    {
+      "opfabCoreMenuId": "settings",
+      "visible": true
+    },
+    {
+      "opfabCoreMenuId": "activityarea",
+      "visible": true
+    },
+    {
+      "opfabCoreMenuId": "feedconfiguration",
+      "visible": true
+    },
+    {
+      "opfabCoreMenuId": "realtimeusers",
+      "visible": true
+    },
+    {
+      "opfabCoreMenuId": "nightdaymode",
+      "visible": true
+    },
+    {
+      "opfabCoreMenuId": "about",
+      "visible": true
+    },
+    {
+      "opfabCoreMenuId": "logout",
+      "visible": true
+    }
+  ],
+  "locales": [
+    {
+      "language": "en",
+      "i18n": {
+        "menu1": {
+          "entry": {
+            "single": "Documentation"
+          }
+        },
+        "menu2": {
+          "entry": {
+            "single": "Grafana"
+          }
+        }
+      }
+    },
+    {
+      "language": "fr",
+      "i18n": {
+        "menu1": {
+          "entry": {
+            "single": "Documentation"
+          }
+        },
+        "menu2": {
+          "entry": {
+            "single": "Grafana"
+          }
+        }
+      }
+    }
+  ]
+}

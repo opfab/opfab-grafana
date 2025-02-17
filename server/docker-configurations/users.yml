@@ -1,0 +1,136 @@
+#  POPULATE THE USER DATABASE ON INIT
+# !!!! WARNING: VALUES SHOULD BE CHANGED FOR PRODUCTION MODE !!!!
+#
+
+
+operatorfabric.users.default:
+  users:
+    - login: admin
+      groups: ["ADMIN", "Demo"]
+      entities: ["ENTITY1_FR","ENTITY2_FR"]
+    - login: operator3_fr
+      groups: ["RTE","ADMIN","ReadOnly","Dispatcher", "REALTIME_USERS", "Demo"]
+      entities: ["ENTITY1_FR"]
+    - login: operator1_fr
+      firstname : John
+      lastname : Doe
+      groups: ["Dispatcher","ReadOnly", "REALTIME_USERS", "Demo"]
+      entities: ["ENTITY1_FR"]
+    - login: operator2_fr
+      groups: ["Planner", "ReadOnly", "REALTIME_USERS", "Demo"]
+      entities: ["ENTITY1_FR","ENTITY2_FR","ENTITY3_FR","ENTITY4_FR"]
+    - login: itsupervisor1
+      groups: ["Supervisor", "REALTIME_USERS", "Demo"]
+      entities: ["IT_SUPERVISOR_ENTITY"]
+    - login: operator1_it
+      groups: ["Dispatcher", "ReadOnly", "Demo"]
+      entities: ["ENTITY1_IT"]
+    - login: operator2_it
+      groups: ["Planner", "ReadOnly", "Demo"]
+      entities: ["ENTITY2_IT"]
+    - login: operator3_it
+      groups: ["Dispatcher", "Planner", "ReadOnly", "Demo"]
+      entities: ["ENTITY3_IT"]
+    - login: operator1_nl
+      groups: ["Dispatcher", "Planner", "ReadOnly", "Demo"]
+      entities: ["ENTITY1_NL"]
+    - login: operator2_nl
+      groups: ["Dispatcher", "Planner", "ReadOnly", "Demo"]
+      entities: ["ENTITY2_NL"]
+    - login: publisher_test
+      groups: ["Dispatcher", "ReadOnly", "Manager", "Demo"]
+    - login: opfab
+      groups: ["ADMIN"]
+  groups:
+    - id: ADMIN
+      name: ADMINISTRATORS
+      description: The admin group
+      permissions: ["ADMIN"]
+    - id: RTE
+      name: RTE France
+      description: RTE TSO Group
+    - id: Dispatcher
+      name: Dispatcher
+      description: Dispatcher Group
+    - id: Planner
+      name: Planner
+      description: Planner Group
+    - id: Supervisor
+      name: Supervisor
+      description: Supervisor Group
+    - id: Manager
+      name: Manager
+      description: Manager Group
+    - id: ReadOnly
+      name: ReadOnly
+      description: ReadOnly Group
+    - id: Demo
+      name: Demo
+      description: Demo Group
+  entities:
+   - id: ENTITY1_FR
+     name: Control Center FR North
+     description: Control Center FR North
+     parents : ["ENTITY_FR"]
+     roles: ["CARD_RECEIVER", "CARD_SENDER", "ACTIVITY_AREA"]
+   - id: ENTITY2_FR
+     name: Control Center FR South
+     description: Control Center FR South
+     parents : ["ENTITY_FR"]
+     roles: ["CARD_RECEIVER", "CARD_SENDER", "ACTIVITY_AREA"]
+   - id: ENTITY3_FR
+     name: Control Center FR East
+     description: Control Center FR East
+     parents : ["ENTITY_FR"]
+     roles: ["CARD_RECEIVER", "CARD_SENDER", "ACTIVITY_AREA"]
+   - id: ENTITY4_FR
+     name: Control Center FR West
+     description: Control Center FR West
+     parents : ["ENTITY_FR"]
+     roles: ["CARD_RECEIVER", "CARD_SENDER", "ACTIVITY_AREA"]
+   - id: ENTITY_FR
+     name: French Control Centers
+     description: French Control Centers
+     roles: ["CARD_RECEIVER", "ACTIVITY_AREA_GROUP"]
+   - id: IT_SUPERVISOR_ENTITY
+     name: IT SUPERVISION CENTER 
+     description: IT SUPERVISION CENTER
+     parents : ["ENTITY_SUP"]
+     roles: ["CARD_RECEIVER", "CARD_SENDER", "ACTIVITY_AREA"]
+   - id: ENTITY_SUP
+     name: IT Supervision Centers
+     description: IT Supervision Centers
+     roles: ["ACTIVITY_AREA_GROUP"]
+   - id: ENTITY1_IT
+     name: Control Center IT North
+     description: Control Center IT North
+     parents : ["ENTITY_IT"]
+     roles: ["CARD_RECEIVER", "CARD_SENDER", "ACTIVITY_AREA"]
+   - id: ENTITY2_IT
+     name: Control Center IT Center
+     description: Control Center IT Center
+     parents : ["ENTITY_IT"]
+     roles: ["CARD_RECEIVER", "CARD_SENDER", "ACTIVITY_AREA"]
+   - id: ENTITY3_IT
+     name: Control Center IT South
+     description: Control Center IT South
+     parents : ["ENTITY_IT"]
+     roles: ["CARD_RECEIVER", "CARD_SENDER", "ACTIVITY_AREA"]
+   - id: ENTITY_IT
+     name: Italian Control Centers
+     description: Italian Control Centers
+     roles: ["CARD_RECEIVER", "ACTIVITY_AREA_GROUP"]
+   - id: ENTITY1_NL
+     name: Control Center NL North
+     description: Control Center NL North
+     parents : ["ENTITY_NL"]
+     roles: ["CARD_RECEIVER", "CARD_SENDER", "ACTIVITY_AREA"]
+   - id: ENTITY2_NL
+     name: Control Center NL South
+     description: Control Center NL South
+     parents : ["ENTITY_NL"]
+     roles: ["CARD_RECEIVER", "CARD_SENDER", "ACTIVITY_AREA"]
+   - id: ENTITY_NL
+     name: Dutch Control Centers
+     description: Dutch Control Centers
+     roles: ["CARD_RECEIVER", "ACTIVITY_AREA_GROUP"]

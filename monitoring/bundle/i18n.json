@@ -1,0 +1,10 @@
+{
+	"process": {
+		"name": "Monitoring process"
+	},
+	"monitoringProcess":{
+		"title":"Dashboard",
+		"panelTitle":"Dashboard panel",
+		"summary":"Monitoring"
+	}
+}
