@@ -111,13 +111,15 @@ services:
     ports:
       - '9090:9090'
     volumes:
-      - ./grafana-data/prometheus:/etc/prometheus
+      - ./grafana-config/prometheus:/etc/prometheus
     command:
       - '--config.file=/etc/prometheus/prometheus.yml'
   grafana:
     image: grafana/grafana
     ports:
       - '3000:3000'
+    extra_hosts:
+      - 'host.docker.internal:host-gateway'
     environment:
       - GF_SECURITY_ALLOW_EMBEDDING=true
       - GF_AUTH_ANONYMOUS_ENABLED=true
@@ -125,8 +127,8 @@ services:
 #      - GF_RENDERING_CALLBACK_URL=http://grafana:3000/
 #      - GF_LOG_FILTERS=rendering:debug
     volumes:
-       - ./grafana-data/datasources:/etc/grafana/provisioning/datasources
-       - ./grafana-data/dashboards:/etc/grafana/provisioning/dashboards
+       - ./grafana-config/datasources:/etc/grafana/provisioning/datasources
+       - ./grafana-config/dashboards:/etc/grafana/provisioning/dashboards
     depends_on:
       - prometheus
 #  renderer:
