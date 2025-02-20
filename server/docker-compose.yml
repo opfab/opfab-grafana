@@ -110,10 +110,12 @@ services:
     image: prom/prometheus
     ports:
       - '9090:9090'
+    extra_hosts:
+      - 'host.docker.internal:host-gateway'
     volumes:
       - ./grafana-config/prometheus:/etc/prometheus
     command:
-      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--config.file=/etc/prometheus/prometheus.yaml'
   grafana:
     image: grafana/grafana
     ports:
@@ -129,6 +131,7 @@ services:
     volumes:
        - ./grafana-config/datasources:/etc/grafana/provisioning/datasources
        - ./grafana-config/dashboards:/etc/grafana/provisioning/dashboards
+       - ./grafana-config/alerting:/etc/grafana/provisioning/alerting
     depends_on:
       - prometheus
 #  renderer:

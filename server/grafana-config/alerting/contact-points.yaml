@@ -1,0 +1,12 @@
+apiVersion: 1
+
+contactPoints:
+  - orgId: 1
+    name: Node service test
+    receivers:
+      - uid: eediurfepa03kb
+        type: webhook
+        settings:
+          httpMethod: POST
+          url: http://host.docker.internal:2109/alert
+        disableResolveMessage: false
