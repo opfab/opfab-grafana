@@ -113,7 +113,7 @@ services:
     extra_hosts:
       - 'host.docker.internal:host-gateway'
     volumes:
-      - ./grafana-config/prometheus:/etc/prometheus
+      - ./grafana-provisioning/prometheus:/etc/prometheus
     command:
       - '--config.file=/etc/prometheus/prometheus.yaml'
   grafana:
@@ -129,9 +129,9 @@ services:
 #      - GF_RENDERING_CALLBACK_URL=http://grafana:3000/
 #      - GF_LOG_FILTERS=rendering:debug
     volumes:
-       - ./grafana-config/datasources:/etc/grafana/provisioning/datasources
-       - ./grafana-config/dashboards:/etc/grafana/provisioning/dashboards
-       - ./grafana-config/alerting:/etc/grafana/provisioning/alerting
+       - ./grafana-provisioning/datasources:/etc/grafana/provisioning/datasources
+       - ./grafana-provisioning/dashboards:/etc/grafana/provisioning/dashboards
+       - ./grafana-provisioning/alerting:/etc/grafana/provisioning/alerting
     depends_on:
       - prometheus
 #  renderer:

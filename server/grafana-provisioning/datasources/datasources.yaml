@@ -12,3 +12,4 @@ datasources:
       cacheLevel: 'High'
       disableRecordingRules: false
       incrementalQueryOverlapWindow: 10m
+      timeInterval: 5s

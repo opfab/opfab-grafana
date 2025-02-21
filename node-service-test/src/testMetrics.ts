@@ -14,7 +14,7 @@ setInterval(async () => {
         cycle.push(value);
         gaugeTest.set(value);
     }
-}, 10000);
+}, 20000);
 
 const app = express();
 

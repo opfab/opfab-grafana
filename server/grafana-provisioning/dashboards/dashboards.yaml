@@ -5,4 +5,4 @@ providers:
     folder: Opfab # The folder where to place the dashboards
     type: file
     options:
-      path: /etc/grafana/provisioning/dashboards/provision
+      path: /etc/grafana/provisioning/dashboards/json
