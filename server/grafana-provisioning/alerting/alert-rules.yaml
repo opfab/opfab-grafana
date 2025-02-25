@@ -1,14 +1,13 @@
 apiVersion: 1
-
 groups:
     - orgId: 1
-      name: group
+      name: group_test
       folder: Opfab
-      interval: 1m
+      interval: 30s
       rules:
-        - uid: eedqnh91d064ge
+        - uid: eee0zny1yjt34f
           title: Node service test
-          condition: B
+          condition: C
           data:
             - refId: A
               relativeTimeRange:
@@ -19,6 +18,7 @@ groups:
                 disableTextWrap: false
                 editorMode: builder
                 expr: node_service_gauge_test
+                format: time_series
                 fullMetaSearch: false
                 includeNullMetadata: true
                 instant: false
@@ -34,28 +34,57 @@ groups:
                 conditions:
                     - evaluator:
                         params:
+                            - 0
+                            - 0
+                        type: gt
+                      operator:
+                        type: and
+                      query:
+                        params: []
+                      reducer:
+                        params: []
+                        type: avg
+                      type: query
+                datasource:
+                    name: Expression
+                    type: __expr__
+                    uid: __expr__
+                expression: A
+                hide: false
+                intervalMs: 1000
+                maxDataPoints: 43200
+                reducer: max
+                refId: B
+                settings:
+                    mode: ""
+                type: reduce
+            - refId: C
+              datasourceUid: __expr__
+              model:
+                conditions:
+                    - evaluator:
+                        params:
                             - 10
                             - 0
                         type: gt
                       operator:
                         type: and
                       query:
-                        params:
-                            - A
+                        params: []
                       reducer:
                         params: []
-                        type: max
+                        type: avg
                       type: query
                 datasource:
                     name: Expression
                     type: __expr__
                     uid: __expr__
-                expression: ""
+                expression: B
                 hide: false
                 intervalMs: 1000
                 maxDataPoints: 43200
-                refId: B
-                type: classic_conditions
+                refId: C
+                type: threshold
           dashboardUid: fednc20jmmznkc
           panelId: 1
           noDataState: NoData
@@ -66,3 +95,5 @@ groups:
           isPaused: false
           notification_settings:
             receiver: Node service test
+            group_wait: 0s
+            group_interval: 1s

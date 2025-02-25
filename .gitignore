@@ -2,6 +2,6 @@
 .idea/*
 *.tar.gz
 
-server/businessconfig-storage/*
-node-service-test/node_modules
-node-service-test/build
+server/businessconfig-storage
+node-services/**/node_modules
+node-services/**/build
