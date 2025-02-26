@@ -3,7 +3,7 @@ groups:
     - orgId: 1
       name: group_test
       folder: Opfab
-      interval: 30s
+      interval: 10s
       rules:
         - uid: eee0zny1yjt34f
           title: Node service test
@@ -87,7 +87,7 @@ groups:
                 type: threshold
           dashboardUid: fednc20jmmznkc
           panelId: 1
-          noDataState: NoData
+          noDataState: OK
           execErrState: Error
           annotations:
             __dashboardUid__: fednc20jmmznkc
