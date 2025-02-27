@@ -17,7 +17,7 @@ groups:
               model:
                 disableTextWrap: false
                 editorMode: builder
-                expr: node_service_gauge_test
+                expr: test_gauge
                 format: time_series
                 fullMetaSearch: false
                 includeNullMetadata: true
@@ -87,13 +87,13 @@ groups:
                 type: threshold
           dashboardUid: fednc20jmmznkc
           panelId: 1
-          noDataState: OK
+          noDataState: NoData
           execErrState: Error
           annotations:
             __dashboardUid__: fednc20jmmznkc
             __panelId__: "1"
           isPaused: false
           notification_settings:
-            receiver: Node service test
+            receiver: Opfab alerting endpoint
             group_wait: 0s
             group_interval: 1s
