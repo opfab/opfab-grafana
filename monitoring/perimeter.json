@@ -1,14 +1,14 @@
 {
-	"id" : "monitoring-Perimeter",
-	"process" : "monitoringProcess",
-	"stateRights" : [
+	"id": "monitoring-Perimeter",
+	"process": "alertingProcess",
+	"stateRights": [
 		{
-			"state" : "dashboardState",
-			"right" : "Receive"
+			"state": "firingState",
+			"right": "Receive"
 		},
 		{
-			"state" : "panelState",
-			"right" : "Receive"
+			"state": "resolvedState",
+			"right": "Receive"
 		}
 	]
 }
