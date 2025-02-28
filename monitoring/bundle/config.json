@@ -1,16 +1,16 @@
 {
-	"id":"monitoringProcess",
-	"name": "process.name",
-	"version":"2",
-	"states":{
-		"panelState" : {
-			"templateName" : "panel",
-			"styles" : [ "style" ],
+	"id": "alertingProcess",
+	"name": "Alerting process",
+	"version": "1",
+	"states": {
+		"firingState": {
+			"templateName": "firing",
+			"styles": [ "style" ],
 			"acknowledgmentAllowed": "Always"
 		},
-		"dashboardState" : {
-			"templateName" : "dashboard",
-			"styles" : [ "style" ],
+		"resolvedState": {
+			"templateName": "resolved",
+			"styles": [ "style" ],
 			"acknowledgmentAllowed": "Always"
 		}
 	}

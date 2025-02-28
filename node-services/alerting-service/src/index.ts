@@ -5,31 +5,49 @@ import {sendCard} from './cardSender';
 const port = 2109;
 const app = express();
 const logger = getLogger();
+const cardBase: any = {
+    publisher: 'opfab',
+    process: 'alertingProcess',
+    processVersion: '1',
+    groupRecipients: ['Dispatcher'],
+    title: {key: 'alertingProcess.title'},
+    summary: {key: 'alertingProcess.summary'}
+};
+let instanceId = 0;
 
 app.use(express.json());
 
 app.post('/alert', (req, res) => {
-    logger.info(JSON.stringify(req.body));
+    const alertNotificationData = req.body;
+    logger.info(JSON.stringify(alertNotificationData, null, 4));
+
+    alertNotificationData.alerts.forEach((alertData: any) => {
+        const card = buildCard(alertData);
+        sendCard(card);
+    });
     res.send();
 });
 
-logger.info(`listening on port ${port}`);
-//app.listen(port);
+function buildCard(alertData: any) {
+    const card = {...cardBase};
 
-const test_card = {
-    publisher: 'opfab',
-    processVersion: '2',
-    process: 'monitoringProcess',
-    processInstanceId: 'panel-1',
-    state: 'panelState',
-    groupRecipients: ['Dispatcher'],
-    severity: 'INFORMATION',
-    startDate: new Date().valueOf(),
-    summary: {key: 'monitoringProcess.summary'},
-    title: {key: 'monitoringProcess.panelTitle'},
-    data: {
-        url: 'http://localhost:3000/d-solo/ce3mo0w8g2jnkd/opfab-dashboard?from=&to=now&timezone=browser&orgId=1&panelId=2&__feature.dashboardSceneSolo'
+    instanceId++;
+    card.processInstanceId = instanceId;
+    card.startDate = new Date().valueOf();
+    card.data = {panelUrl: transformPanelUrl(alertData.panelURL)};
+    if (alertData.status === 'firing') {
+        card.state = 'firingState';
+        card.severity = 'ALARM';
+    } else {
+        card.state = 'resolvedState';
+        card.severity = 'INFORMATION';
     }
-};
+    return card;
+}
 
-sendCard(test_card);
+function transformPanelUrl(panelUrl: string) {
+    return panelUrl.replace('/d/', '/d-solo/').replace('viewPanel=', 'panelId=');
+}
+
+logger.info(`listening on port ${port}`);
+app.listen(port);

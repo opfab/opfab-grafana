@@ -1,24 +1,22 @@
+<h2>Alert resolved</h2>
 
-
-
-<iframe id="dashboard" src="" width="100%" height="400" frameborder="0"></iframe>
+<iframe id="panel" src="" width="100%" height="400" frameborder="0"></iframe>
 
 <br>
 
 <a href="javascript:opfab.navigate.redirectToBusinessMenu('uid_test_1')">Show Dashboard</a>
 
 <script>
-    
+
     cardTemplate = {
-        
         initDashboard: function() {
             let grafanaTheme = "dark";
             let opfabTheme = document.body.getAttribute("opfab-theme");
             if (opfabTheme == "DAY") 
                 grafanaTheme="light";
 
-            let source = "{{{card.data.url}}}&theme="+grafanaTheme;
-            document.getElementById('dashboard').setAttribute("src", encodeURI(source));
+            let source = "{{{card.data.panelUrl}}}&theme=" + grafanaTheme;
+            document.getElementById('panel').setAttribute("src", encodeURI(source));
             
         }
     }

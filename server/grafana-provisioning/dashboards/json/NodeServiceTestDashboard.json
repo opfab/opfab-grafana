@@ -111,7 +111,7 @@
           },
           "disableTextWrap": false,
           "editorMode": "builder",
-          "expr": "node_service_gauge_test",
+          "expr": "test_gauge",
           "fullMetaSearch": false,
           "includeNullMetadata": true,
           "legendFormat": "__auto",

@@ -14,20 +14,22 @@ async function getToken() {
         data: `username=${login}&password=${password}&grant_type=password`
     });
     const token = response?.data?.access_token;
-    if (token == null) {
-        logger.error('No token received');
-    }
+    if (token == null) throw new Error(`no token provided, response: ${response}`);
     return token;
 }
 
 export async function sendCard(card: any) {
-    const token = await getToken();
-    await axios({
-        method: 'post',
-        url: cardPublicationUrl,
-        data: card,
-        headers: {
-            Authorization: `Bearer ${token}`
-        }
-    });
+    try {
+        const token = await getToken();
+        await axios({
+            method: 'post',
+            url: cardPublicationUrl,
+            data: card,
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
+    } catch (err) {
+        logger.error('Error sending card:', err);
+    }
 }
