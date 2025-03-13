@@ -1,11 +1,12 @@
 import axios from 'axios';
 import {getLogger} from './logger';
+import config from 'config';
 
-const cardPublicationUrl = 'http://127.0.0.1:2102';
-const usersUrl = 'http://127.0.0.1:2103';
-const authTokenUrl = 'http://127.0.0.1:2002/auth/token';
-const login = 'opfab';
-const password = 'test';
+const authTokenUrl: string = config.get('operatorfabric.servicesUrls.authToken');
+const cardsPublicationUrl: string = config.get('operatorfabric.servicesUrls.cardsPublication');
+const usersUrl: string = config.get('operatorfabric.servicesUrls.users');
+const login: string = config.get('operatorfabric.internalAccount.login');
+const password: string = config.get('operatorfabric.internalAccount.password');
 const logger = getLogger();
 
 async function getToken(): Promise<any> {
@@ -24,7 +25,7 @@ export async function sendCard(card: any): Promise<void> {
         const token = await getToken();
         await axios({
             method: 'post',
-            url: cardPublicationUrl + '/cards',
+            url: cardsPublicationUrl + '/cards',
             data: card,
             headers: {
                 Authorization: `Bearer ${token}`

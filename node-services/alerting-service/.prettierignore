@@ -1,3 +1,4 @@
 build/
 eslint.config.mjs
 tsconfig.json
+**/*.yml
