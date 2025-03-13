@@ -1,11 +1,17 @@
 import express from 'express';
+import config from 'config';
 import {getLogger} from './common/logger';
 import AlertService from './alertService';
+import MappingService from './mapping/mappingService';
 
-const port = 2109;
+const port: string = config.get('operatorfabric.alerting.port');
 const app = express();
 const logger = getLogger();
-const alertService = new AlertService();
+const alertService = new AlertService(
+    config.get('operatorfabric.alerting.cardTemplate'),
+    config.get('operatorfabric.alerting.panelRangeOffset')
+);
+const mappingService = new MappingService(config.get('operatorfabric.alerting.mapping.configFilePath'));
 
 app.use(express.json());
 

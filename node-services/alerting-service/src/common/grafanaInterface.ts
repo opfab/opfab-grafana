@@ -1,7 +1,8 @@
 import axios from 'axios';
 import {getLogger} from './logger';
+import config from 'config';
 
-const grafanaUrl = 'http://127.0.0.1:3000';
+const grafanaUrl: string = config.get('grafana.url');
 const logger = getLogger();
 
 export async function getAlertRules(): Promise<any> {
