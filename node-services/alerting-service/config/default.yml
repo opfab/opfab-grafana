@@ -1,0 +1,19 @@
+grafana:
+  url: "http://127.0.0.1:3000"
+operatorfabric:
+  servicesUrls:
+    authToken: "http://127.0.0.1:2002/auth/token"
+    cardsPublication: "http://127.0.0.1:2102"
+    users: "http://127.0.0.1:2103"
+  internalAccount:
+    login: opfab
+    password: test
+  alerting:
+    cardTemplate:
+      publisher: opfab
+      processVersion: '1'
+      process: alertingProcess
+    panelRangeOffset: 60000
+    port: 2109
+    mapping:
+      configFilePath: "src/mapping/config.json"

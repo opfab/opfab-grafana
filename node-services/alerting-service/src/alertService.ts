@@ -1,22 +1,17 @@
 import {sendCard} from './common/opfabInterface';
 
 export default class AlertService {
-    private cardBase: any = {
-        publisher: 'opfab',
-        process: 'alertingProcess',
-        processVersion: '1',
-        groupRecipients: ['Dispatcher'],
-        title: {key: 'alertingProcess.title'},
-        summary: {key: 'alertingProcess.summary'}
-    };
-    private panelRangeOffset: number = 1000 * 60 * 1;
+    private cardTemplate: any;
+    private panelRangeOffset: number;
     private alertsCurrentStatus: Map<string, {status: string; startsAt: number}>;
 
-    constructor() {
+    constructor(cardTemplate: any, panelRangeOffset: number) {
+        this.cardTemplate = cardTemplate;
+        this.panelRangeOffset = panelRangeOffset;
         this.alertsCurrentStatus = new Map();
     }
 
-    public processAlert(alert: any) {
+    public processAlert(alert: any): void {
         alert.startsAt = new Date(alert.startsAt).valueOf();
         alert.endsAt = new Date(alert.endsAt).valueOf();
         const currentStatus = this.alertsCurrentStatus.get(alert.fingerprint);
@@ -32,10 +27,13 @@ export default class AlertService {
     }
 
     private buildCard(alert: any): any {
-        const card = {...this.cardBase};
+        const card = {...this.cardTemplate};
 
         card.processInstanceId = alert.fingerprint + alert.startsAt.toString();
         card.startDate = alert.startsAt;
+        card.groupRecipients = ['Dispatcher'];
+        card.title = {key: 'alertingProcess.title'};
+        card.summary = {key: 'alertingProcess.summary'};
         if (alert.status === 'firing') {
             card.state = 'firingState';
             card.severity = 'ALARM';
