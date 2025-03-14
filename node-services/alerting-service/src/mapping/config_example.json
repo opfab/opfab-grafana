@@ -1,0 +1,11 @@
+{
+    "alertrule1_uid": {
+        "recipients": ["r1", "r3"],
+        "firingSeverity": "ALARM",
+        "resolvedSeverity": "INFORMATION"
+    },
+    "alertrule2_uid": {
+        "recipients": ["r2", "r3"],
+        "firingSeverity": "ACTION"
+    }
+}

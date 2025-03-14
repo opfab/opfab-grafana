@@ -2,7 +2,7 @@ apiVersion: 1
 
 contactPoints:
   - orgId: 1
-    name: Opfab alerting endpoint
+    name: Opfab alerting service
     receivers:
       - uid: eediurfepa03kb
         type: webhook

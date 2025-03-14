@@ -5,14 +5,14 @@ import config from 'config';
 const grafanaUrl: string = config.get('grafana.url');
 const logger = getLogger();
 
-export async function getAlertRules(): Promise<any> {
+export async function getAlertRules(): Promise<any[]> {
     try {
         const response = await axios({
             method: 'get',
             url: grafanaUrl + '/api/v1/provisioning/alert-rules'
         });
         if (response?.data == null) throw new Error('no response data');
-        else return response.data;
+        return response.data;
     } catch (err) {
         logger.error('Impossible to get Grafana alert rules:', err);
         return [];
