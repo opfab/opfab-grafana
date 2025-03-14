@@ -36,7 +36,7 @@ export async function sendCard(card: any): Promise<void> {
     }
 }
 
-export async function getEntities(): Promise<any> {
+export async function getEntities(): Promise<any[]> {
     try {
         const token = await getToken();
         const response = await axios({
@@ -47,7 +47,7 @@ export async function getEntities(): Promise<any> {
             }
         });
         if (response?.data == null) throw new Error('no response data');
-        else return response.data;
+        return response.data;
     } catch (err) {
         logger.error('Impossible to get entities:', err);
         return [];

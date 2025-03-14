@@ -1,0 +1,17 @@
+[
+    {
+        "alertRuleUid": "eee0zny1yjt34f",
+        "data": {
+            "recipients": ["r1", "r3"],
+            "firingSeverity": "ALARM",
+            "resolvedSeverity": "INFORMATION"
+        }
+    },
+    {
+        "alertRuleUid": "rule2",
+        "data": {
+            "recipients": ["r2", "r3"],
+            "firingSeverity": "ACTION"
+        }
+    }
+]
