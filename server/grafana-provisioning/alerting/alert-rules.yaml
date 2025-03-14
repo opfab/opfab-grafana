@@ -94,6 +94,6 @@ groups:
             __panelId__: "1"
           isPaused: false
           notification_settings:
-            receiver: Opfab alerting endpoint
+            receiver: Opfab alerting service
             group_wait: 0s
             group_interval: 1s

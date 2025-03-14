@@ -1,5 +1,6 @@
 grafana:
   url: "http://127.0.0.1:3000"
+  contactPointName: Opfab alerting service
 operatorfabric:
   servicesUrls:
     authToken: "http://127.0.0.1:2002/auth/token"
@@ -17,3 +18,6 @@ operatorfabric:
     port: 2109
     mapping:
       configFilePath: "src/mapping/config.json"
+      defaultMappingData:
+        firingSeverity: ALARM
+        resolvedSeverity: COMPLIANT
