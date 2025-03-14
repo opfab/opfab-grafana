@@ -1,18 +1,25 @@
-import express from 'express';
 import config from 'config';
+import express from 'express';
 import {getLogger} from './common/logger';
 import AlertService from './alertService';
 import MappingService from './mapping/mappingService';
+import MappingData from './mapping/mappingDataModel';
 
 const port: string = config.get('operatorfabric.alerting.port');
 const app = express();
 const logger = getLogger();
+
+const mappingService = new MappingService(
+    config.get('operatorfabric.alerting.mapping.configFilePath'),
+    config.get('operatorfabric.alerting.mapping.defaultMappingData')
+);
 const alertService = new AlertService(
     config.get('operatorfabric.alerting.cardTemplate'),
-    config.get('operatorfabric.alerting.panelRangeOffset')
+    config.get('operatorfabric.alerting.panelRangeOffset'),
+    mappingService
 );
-const mappingService = new MappingService(config.get('operatorfabric.alerting.mapping.configFilePath'));
 
+app.disable('x-powered-by');
 app.use(express.json());
 
 app.post('/alerts', (req, res) => {
@@ -25,7 +32,24 @@ app.post('/alerts', (req, res) => {
     res.send();
 });
 
-app.get('/mapping/config');
+app.get('/mapping', async (req, res) => {
+    res.send(await mappingService.getConfig());
+});
+
+app.post('/mapping/:uid', (req, res) => {
+    const alertRuleUid: string = req.params.uid;
+    const data: MappingData = req.body;
+
+    mappingService.setMapping(alertRuleUid, data);
+    res.send();
+});
+
+app.delete('/mapping/:uid', (req, res) => {
+    const alertRuleUid: string = req.params.uid;
+
+    mappingService.deleteMapping(alertRuleUid);
+    res.send();
+});
 
 logger.info(`listening on port ${port}`);
-// app.listen(port);
+app.listen(port);
