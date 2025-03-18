@@ -107,7 +107,7 @@ services:
       - "./docker-configurations/cards-reminder.yml:/usr/app/config/docker.yml"
       - "./docker-configurations/common.yml:/usr/app/config/common.yml"
   prometheus:
-    image: prom/prometheus
+    image: prom/prometheus:v2.53.4
     ports:
       - '9090:9090'
     extra_hosts:
@@ -117,7 +117,7 @@ services:
     command:
       - '--config.file=/etc/prometheus/prometheus.yaml'
   grafana:
-    image: grafana/grafana
+    image: grafana/grafana:11.5.3
     ports:
       - '3000:3000'
     extra_hosts:

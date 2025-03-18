@@ -87,7 +87,7 @@ groups:
                 type: threshold
           dashboardUid: fednc20jmmznkc
           panelId: 1
-          noDataState: NoData
+          noDataState: OK
           execErrState: Error
           annotations:
             __dashboardUid__: fednc20jmmznkc

@@ -4,15 +4,13 @@ import readline from 'node:readline';
 
 const app = express();
 const port = 2110;
-const baseValues = [5, 7];
 
 const testGauge = new Gauge({
     name: 'test_gauge',
     help: 'Gauge metric test',
-    labelNames: ['test_label']
+    // labelNames: ['test_label']
 });
-testGauge.set({test_label: 0}, baseValues[0]);
-testGauge.set({test_label: 1}, baseValues[1]);
+testGauge.set(5);
 
 const rl = readline.createInterface({
     input: process.stdin,
@@ -20,15 +18,9 @@ const rl = readline.createInterface({
 });
 
 function getInput() {
-    rl.question('test_gauge increase value for 10s : ', (value) => {
-        testGauge.inc({test_label: 0}, Number(value));
-        testGauge.inc({test_label: 1}, Number(value));
-
-        setTimeout(() => {
-            testGauge.set({test_label: 0}, baseValues[0]);
-            testGauge.set({test_label: 1}, baseValues[1]);
-            getInput();
-        }, 10000);
+    rl.question('Set value for test metric (alert fires above 10): ', (value) => {
+        testGauge.set(Number(value));
+        getInput();
     });
 }
 
