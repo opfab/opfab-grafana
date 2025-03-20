@@ -27,6 +27,17 @@
           "linkType": "BOTH"
         }
       ]
+    },
+    {
+      "id": "menu3",
+      "entries": [
+        {
+          "customMenuId": "uid_test_2",
+          "url": "/mappingAdministration/mappingScreen.html",
+          "label": "menu3.entry.single",
+          "linkType": "BOTH"
+        }
+      ]
     }
   ],
   "topRightIconMenus": [
@@ -87,6 +98,11 @@
           "entry": {
             "single": "Grafana"
           }
+        },
+        "menu3": {
+          "entry": {
+            "single": "Mapping Administration"
+          }
         }
       }
     },
@@ -101,6 +117,11 @@
         "menu2": {
           "entry": {
             "single": "Grafana"
+          }
+        },
+        "menu3": {
+          "entry": {
+            "single": "Mapping Administration"
           }
         }
       }

@@ -31,7 +31,7 @@ export default class AlertService {
         this.alertsCurrentStatus.set(alert.fingerprint, {status: alert.status, startsAt: alert.startsAt});
         const card = this.buildCard(alert);
         if (card === undefined) {
-            this.logger.warn(`Card not sent: undefined recipients for alert rule ${alert.ruleUid}`);
+            this.logger.warn(`Card not sent: no recipients mapped for alert rule ${alert.ruleUid}`);
             return;
         }
         sendCard(card);
@@ -48,14 +48,15 @@ export default class AlertService {
         card.entityRecipients = mappingData.recipients;
         card.title = {key: 'alertingProcess.title'};
         card.summary = {key: 'alertingProcess.summary'};
+        card.data = {alertName: alert.labels.grafana_folder + '/' + alert.labels.alertname};
         if (alert.status === 'firing') {
             card.state = 'firingState';
             card.severity = mappingData?.firingSeverity ?? defaultMappingData.firingSeverity;
-            card.data = {panelUrl: this.transformPanelUrl(alert.panelURL, alert.startsAt)};
+            card.data.panelUrl = this.transformPanelUrl(alert.panelURL, alert.startsAt);
         } else {
             card.state = 'resolvedState';
             card.severity = mappingData?.resolvedSeverity ?? defaultMappingData.resolvedSeverity;
-            card.data = {panelUrl: this.transformPanelUrl(alert.panelURL, alert.startsAt, alert.endsAt)};
+            card.data.panelUrl = this.transformPanelUrl(alert.panelURL, alert.startsAt, alert.endsAt);
             card.endDate = alert.endsAt;
         }
         return card;

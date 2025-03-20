@@ -41,14 +41,14 @@ app.post('/mapping/:uid', (req, res) => {
     const data: MappingData = req.body;
 
     mappingService.setMapping(alertRuleUid, data);
-    res.send();
+    res.status(204).send();
 });
 
 app.delete('/mapping/:uid', (req, res) => {
     const alertRuleUid: string = req.params.uid;
 
     mappingService.deleteMapping(alertRuleUid);
-    res.send();
+    res.status(204).send();
 });
 
 logger.info(`listening on port ${port}`);

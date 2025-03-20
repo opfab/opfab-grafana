@@ -18,3 +18,17 @@ export async function getAlertRules(): Promise<any[]> {
         return [];
     }
 }
+
+export async function getFolders(): Promise<any[]> {
+    try {
+        const response = await axios({
+            method: 'get',
+            url: grafanaUrl + '/api/folders'
+        });
+        if (response?.data == null) throw new Error('no response data');
+        return response.data;
+    } catch (err) {
+        logger.error('Impossible to get Grafana folders:', err);
+        return [];
+    }
+}

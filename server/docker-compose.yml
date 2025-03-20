@@ -90,6 +90,7 @@ services:
       - "./web-ui.json:/usr/share/nginx/html/config/web-ui.json"
       - "./ui-menu.json:/usr/share/nginx/html/config/ui-menu.json"
       - "./html/grafana.html:/usr/share/nginx/html/grafana.html"
+      - "./html/mappingAdministration:/usr/share/nginx/html/mappingAdministration"
       - "./nginx.conf:/etc/nginx/conf.d/default.conf"
   cards-reminder:
     container_name: cards-reminder
