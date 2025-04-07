@@ -1,0 +1,10 @@
+services:
+  alerting:
+    image: alerting
+    user: ${USER_ID}:${USER_GID}
+    ports:
+      - "2109:2109"
+    environment:
+      - NODE_ENV=docker
+    volumes:
+      - ./mapping:/usr/app/mapping

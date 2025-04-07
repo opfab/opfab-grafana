@@ -17,7 +17,7 @@ operatorfabric:
     panelRangeOffset: 60000
     port: 2109
     mapping:
-      configFilePath: "src/mapping/config.json"
+      configFilePath: "mapping/config.json"
       defaultMappingData:
         firingSeverity: ALARM
         resolvedSeverity: COMPLIANT

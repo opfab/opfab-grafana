@@ -1,4 +1,3 @@
-version: '2.1'
 services:
   mongodb:
     container_name: mongodb
@@ -111,8 +110,6 @@ services:
     image: prom/prometheus:v2.53.4
     ports:
       - '9090:9090'
-    extra_hosts:
-      - 'host.docker.internal:host-gateway'
     volumes:
       - ./grafana-provisioning/prometheus:/etc/prometheus
     command:
@@ -121,21 +118,12 @@ services:
     image: grafana/grafana:11.5.3
     ports:
       - '3000:3000'
-    extra_hosts:
-      - 'host.docker.internal:host-gateway'
     environment:
       - GF_SECURITY_ALLOW_EMBEDDING=true
       - GF_AUTH_ANONYMOUS_ENABLED=true
-#      - GF_RENDERING_SERVER_URL=http://renderer:8081/render
-#      - GF_RENDERING_CALLBACK_URL=http://grafana:3000/
-#      - GF_LOG_FILTERS=rendering:debug
     volumes:
        - ./grafana-provisioning/datasources:/etc/grafana/provisioning/datasources
        - ./grafana-provisioning/dashboards:/etc/grafana/provisioning/dashboards
        - ./grafana-provisioning/alerting:/etc/grafana/provisioning/alerting
     depends_on:
       - prometheus
-#  renderer:
-#    image: grafana/grafana-image-renderer:latest
-#    ports:
-#      - 8081:8081
