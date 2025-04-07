@@ -1,4 +1,5 @@
 build/
+mapping/
 eslint.config.mjs
 tsconfig.json
 **/*.yml

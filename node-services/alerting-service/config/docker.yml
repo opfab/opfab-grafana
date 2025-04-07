@@ -1,0 +1,7 @@
+grafana:
+  url: "http://172.17.0.1:3000"
+operatorfabric:
+  servicesUrls:
+    authToken: "http://172.17.0.1:2002/auth/token"
+    cardsPublication: "http://172.17.0.1:2102"
+    users: "http://172.17.0.1:2103"

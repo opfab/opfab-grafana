@@ -8,5 +8,5 @@ contactPoints:
         type: webhook
         settings:
           httpMethod: POST
-          url: http://host.docker.internal:2109/alerts
+          url: http://172.17.0.1:2109/alerts
         disableResolveMessage: false
