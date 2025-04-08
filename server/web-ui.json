@@ -12,7 +12,7 @@
     "timeline": {
       "hide": false,
       "domains": [
-        "TR",
+        "RT",
         "J",
         "7D",
         "W",
@@ -49,8 +49,8 @@
   },
   "settings": {
     "locale": "en",
-    "dateTimeFormat": "HH:mm DD/MM/YYYY",
-    "dateFormat": "DD/MM/YYYY",
+    "dateTimeFormat": "HH:mm dd/MM/yyyy",
+    "dateFormat": "dd/MM/yyyy",
     "nightDayMode": true,
     "styleWhenNightDayModeDesactivated" : "NIGHT"
   },
