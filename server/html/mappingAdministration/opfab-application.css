@@ -1,0 +1,1038 @@
+/* Copyright (c) 2021-2024, RTE (http://www.rte-france.com)
+ * See AUTHORS.txt
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/.
+ * SPDX-License-Identifier: MPL-2.0
+ * This file is part of the OperatorFabric project.
+ */
+
+/* CSS file intended for sharing the style with external applications */
+
+:root {
+    --opfab-color-blue: #2784ff;
+    --opfab-color-darker-blue: #2268ff;
+    --opfab-color-orange: orange;
+    --opfab-color-darker-orange: #f60;
+    --opfab-color-red: red;
+    --opfab-color-dark-red: #58151c;
+    --opfab-color-light-pink: #f8d7da;
+    --opfab-color-light-pink-2: #f1aeb5;
+    --opfab-color-green: green;
+    --opfab-color-severity-alarm: #a71a1a;
+    --opfab-color-severity-action: #fd9312;
+    --opfab-color-severity-compliant: #00bb03;
+    --opfab-color-severity-information: #1074ad;
+    --opfab-color-grey: #6c757d;
+}
+
+[opfab-theme='NIGHT'] {
+    --opfab-bgcolor: #262f3d;
+    --opfab-bgcolor-darker: #131d2b;
+    --opfab-font-family: 'Open Sans', sans-serif;
+    --opfab-text-color: #bababa;
+    --opfab-text-color-stronger: white;
+    --opfab-table-border-color: white;
+    --opfab-input-text-color: white;
+    --opfab-form-border-color: #606267;
+    --opfab-form-label-text-color: #bababa;
+    --opfab-button-disable-bgcolor: #2b353f;
+    --opfab-popover-bgcolor: #182638;
+    --opfab-tooltip-template-bgcolor: #182638;
+    --opfab-tooltip-template-bgcolor-for-form-lighter: #182638;
+    --opfab-tooltip-template-border-color:#182638 ;
+    --opfab-tooltip-template-arrow-color: white;
+    --opfab-feedbar-icon-color: white;
+    --opfab-feedbar-icon-hover-color: white;
+    --opfab-feedbar-icon-hover-bgcolor: #131d2b;
+    --opfab-timeline-bgcolor: #131d2b;
+    --opfab-timeline-text-color: #fff;
+    --opfab-timeline-grid-text-color: #bababa;
+    --opfab-timeline-grid-color: #575757;
+    --opfab-timeline-week-color: #b1b1b1;
+    --opfab-timeline-week-color2: #b1b1b1;
+    --opfab-timeline-week-bgcolor: #212b3a;
+    --opfab-timeline-realtimebar-color: var(--opfab-color-blue);
+    --opfab-timeline-button-bgcolor: rgb(221 221 221);
+    --opfab-timeline-button-text-color: black;
+    --opfab-timeline-button-selected-bgcolor: black;
+    --opfab-timeline-button-selected-text-color: white;
+    --opfab-lightcard-detail-bgcolor: #131d2b;
+    --opfab-lightcard-detail-textcolor: #bababa;
+    --opfab-lightcard-detail-border-color: #222933;
+    --opfab-lightcard-detail-selected-bgcolor: #0f161f;
+    --opfab-lightcard-detail-unread-textcolor: white;
+    --opfab-light-card-lttd-timeleft: var(--opfab-color-darker-orange);
+    --opfab-card-tab-selected-text-color: #bababa;
+    --opfab-card-tab-border-color: #bababa;
+    --opfab-card-bgcolor: #131d2b;
+    --opfab-card-detail-border-color: #343a40;
+    --opfab-navbar-color: #bababa;
+    --opfab-navbar-color-hover: white;
+    --opfab-navbar-color-active: white;
+    --opfab-navbar-dropdown-menu-border-color: #343a40;
+    --opfab-navbar-info-block-color: white;
+    --opfab-navbar-right-menu-bgcolor: #182638;
+    --opfab-timeline-cardlink: white;
+    --opfab-timeline-cardlink-bgcolor-hover: #23272b;
+    --opfab-timeline-cardlink-bordercolor-hover: #1d2124;
+    --opfab-calendar-grid-color: #303237;
+    --opfab-scrollbar-bgcolor: #131d2b;
+    --opfab-scrollbar-border-color: #131d2b;
+    --opfab-scrollbar-bar-bgcolor: #262f3d;
+    --opfab-scrollbar-bar-border-color: #979797;
+    --opfab-scrollbar-bgcolor-firefox: #131d2b;
+    --opfab-scrollbar-bar-bgcolor-firefox: #333d4b;
+    --opfab-pagination-active-page-background: #bababa;
+    --opfab-pagination-disabled-link: #606060;
+    --opfab-richtexteditor-button-active: #474f5b;
+}
+
+[opfab-theme='DAY'] {
+    --opfab-bgcolor: white;
+    --opfab-bgcolor-darker: #f3f2f1;
+    --opfab-font-family: 'Open Sans', sans-serif;
+    --opfab-text-color: black;
+    --opfab-text-color-stronger: black;
+    --opfab-table-border-color: grey;
+    --opfab-input-text-color: black;
+    --opfab-form-label-text-color: black;
+    --opfab-form-border-color: #9c9b9b;
+    --opfab-button-disable-bgcolor: #dbdbdb;
+    --opfab-popover-bgcolor: #f3f2f1;
+    --opfab-tooltip-template-bgcolor: white;
+    --opfab-tooltip-template-bgcolor-for-form-lighter: #f3f2f1;
+    --opfab-tooltip-template-border-color: #ccc;
+    --opfab-tooltip-template-arrow-color: #ccc;
+    --opfab-feedbar-icon-color: black;
+    --opfab-feedbar-icon-hover-color: #212529;
+    --opfab-feedbar-icon-hover-bgcolor: #f3f2f1;
+    --opfab-timeline-bgcolor: #f3f2f1;
+    --opfab-timeline-text-color: #000;
+    --opfab-timeline-grid-color: #c9ccd1;
+    --opfab-timeline-week-color: #aaa;
+    --opfab-timeline-week-color2: #aaa;
+    --opfab-timeline-week-bgcolor: #fff;
+    --opfab-timeline-realtimebar-color: var(--opfab-color-blue);
+    --opfab-timeline-button-bgcolor: #e5e5e5;
+    --opfab-timeline-button-text-color: #49494a;
+    --opfab-timeline-button-selected-bgcolor: #49494a;
+    --opfab-timeline-button-selected-text-color: #fcfdfd;
+    --opfab-lightcard-detail-bgcolor: #f3f2f1;
+    --opfab-lightcard-detail-textcolor: black;
+    --opfab-lightcard-detail-border-color: #ccc;
+    --opfab-lightcard-detail-selected-bgcolor: #e1e1e1;
+    --opfab-lightcard-detail-unread-textcolor: black;
+    --opfab-light-card-lttd-timeleft: var(--opfab-color-darker-orange);
+    --opfab-card-tab-selected-text-color: black;
+    --opfab-card-tab-border-color: ##111d2d;
+    --opfab-card-bgcolor: #f3f2f1;
+    --opfab-card-shadow: 0 2px 4px 0 rgb(0 0 0 / 50%);
+    --opfab-card-detail-border-color: #ddd;
+    --opfab-navbar-color: black;
+    --opfab-navbar-color-hover: #aaa;
+    --opfab-navbar-color-active: black;
+    --opfab-navbar-dropdown-menu-border-color: #ccc;
+    --opfab-navbar-info-block-color: rgb(0 0 0 / 90%);
+    --opfab-navbar-right-menu-bgcolor: #F3F2F1;
+    --opfab-timeline-cardlink: #212529;
+    --opfab-timeline-cardlink-bgcolor-hover: #e2e6ea;
+    --opfab-timeline-cardlink-bordercolor-hover: #dae0e5;
+    --opfab-calendar-grid-color: #c9ccd1;
+    --opfab-scrollbar-bgcolor: #fff;
+    --opfab-scrollbar-border-color: #979797;
+    --opfab-scrollbar-bar-bgcolor: #bfc1c7;
+    --opfab-scrollbar-bar-border-color: #979797;
+    --opfab-scrollbar-bgcolor-firefox: #ddd;
+    --opfab-scrollbar-bar-bgcolor-firefox: #bbb;
+    --opfab-pagination-active-page-background: #909090;
+    --opfab-pagination-disabled-link: #808080;
+    --opfab-richtexteditor-button-active: #ccc;
+}
+
+@font-face {
+    font-family: 'Open Sans';
+    src: url('../../shared/fonts/OpenSans-Bold.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Open Sans';
+    src: url('../../shared/fonts/OpenSans-SemiBold.ttf') format('truetype');
+    font-weight: 600;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Open Sans';
+    src: url('../../shared/fonts/OpenSans-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+/* Global colors */
+
+.opfab-colors {
+    background-color: var(--opfab-bgcolor);
+    color: var(--opfab-text-color);
+}
+
+.opfab-color-danger {
+    color: var(--opfab-color-red);
+}
+
+.opfab-color-warning {
+    color: var(--opfab-color-darker-orange);
+}
+
+.opfab-color-success {
+    color: var(--opfab-color-green);
+}
+
+.opfab-grey-background {
+    background-color: var(--opfab-color-grey);
+}
+
+.opfab-blue-background {
+    background-color: var(--opfab-color-darker-blue);
+}
+
+body {
+    height: 100vh;
+    font-family: var(--opfab-font-family);
+    font-size: 13px;
+}
+
+
+
+/* SELECT FIELD STYLE */
+
+.opfab-select {
+    color: var(--opfab-input-text-color);
+    background-color: var(--opfab-bgcolor-darker);
+    box-sizing: border-box;
+    border: 0.5px solid var(--opfab-form-border-color);
+    border-radius: 3px;
+    font-size: 13px;
+    height: 46px;
+    outline: none;
+}
+
+.opfab-select > select {
+    background-color: var(--opfab-bgcolor-darker);
+    color: var(--opfab-input-text-color);
+    padding: 10px;
+    width: calc(100% - 4px);
+    height: 42px;
+    border: none;
+    outline: none;
+    appearance: none;
+}
+
+.opfab-select > select option {
+    background-color: var(--opfab-bgcolor-darker);
+    font-size: 16px;
+}
+
+.opfab-select label {
+    margin-left: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+    position: absolute;
+    font-size: 11px;
+    top: -10px;
+    left: 10;
+    color: var(--opfab-form-label-text-color);
+    background-color: var(--opfab-bgcolor-darker);
+}
+
+.opfab-select::before {
+    content: 'V';
+    transform: scaleY(0.5);
+    position: absolute;
+    margin-right: 20px;
+    top: 0;
+    right: 0;
+    width: 30px;
+    height: 100%;
+    text-align: center;
+    font-size: 30px;
+    color: var(--opfab-text-color);
+    pointer-events: none;
+}
+
+/* INPUT FIELD STYLE */
+
+.opfab-input > input {
+    background-color: var(--opfab-bgcolor-darker);
+    color: var(--opfab-input-text-color);
+    caret-color: var(--opfab-input-text-color);
+    padding: 10px;
+    width: calc(100% - 4px);
+    height: 42px;
+    border: none;
+    outline: none;
+    appearance: none;
+    -webkit-autofill: none;
+
+    /* Firefox : to avoid browser styling when auto-filling input field (example password)
+    * see https://stackoverflow.com/questions/55228377/remove-new-firefox-autofill-color
+    */
+    filter: none;
+}
+
+.opfab-input{
+    box-sizing: border-box;
+    position: relative;
+    color: var(--opfab-input-text-color);
+    border: 1px solid var(--opfab-form-border-color);
+    border-radius: 3px;
+    font-size: 13px;
+    height: 46px;
+    outline: none;
+    background-color: var(--opfab-bgcolor-darker);
+}
+
+.opfab-input > label {
+    margin-left: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+    position: absolute;
+    font-size: 11px;
+    margin-top: -10px;
+    left: 10;
+    color: var(--opfab-form-label-text-color);
+    background-color: var(--opfab-bgcolor-darker);
+}
+
+.opfab-input-invalid {
+    border: 1px solid var(--opfab-color-light-pink-2);
+    color: var(--opfab-color-dark-red);
+    background-color: var(--opfab-color-light-pink);
+    border-radius: 0.375rem;
+    margin-bottom: 1rem;
+    padding: 1rem;
+}
+
+.opfab-admin-input-invalid {
+    border: 1px solid var(--opfab-color-light-pink-2);
+    color: var(--opfab-color-dark-red);
+    background-color: var(--opfab-color-light-pink);
+    border-radius: 0.375rem;
+    margin-bottom: 1rem;
+    padding: 1rem;
+    margin-top: -15px;
+}
+
+/* CHECKBOX */
+
+
+/* The opfab-checkbox */
+.opfab-checkbox {
+    display: block;
+    position: relative;
+    padding-left: 35px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    font-size: 13px;
+    width: max-content;
+}
+
+/* Hide the browser's default checkbox */
+.opfab-checkbox input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+
+/* Create a custom checkbox */
+.opfab-checkbox-checkmark {
+    position: absolute;
+    top: 2px;
+    left: 0;
+    height: 17px;
+    width: 17px;
+    border: 1px solid #979797;
+    border-radius: 2px;
+}
+
+/* Create the opfab-checkbox-checkmark/indicator (hidden when not checked) */
+.opfab-checkbox-checkmark::after {
+    content: '';
+    position: absolute;
+    display: none;
+}
+
+/* Style the opfab-checkbox-checkmark/indicator */
+.opfab-checkbox .opfab-checkbox-checkmark::after {
+    left: 8px;
+    top: -6px;
+    width: 10px;
+    height: 20px;
+    border: solid var(--opfab-color-blue);
+    border-width: 0 4px 4px 0;
+    transform: rotate(45deg);
+}
+
+/* Show the opfab-checkbox-checkmark when checked */
+.opfab-checkbox input:checked ~ .opfab-checkbox-checkmark::after {
+    display: block;
+}
+
+/* set disabled checkbox checkmark in grey */
+.opfab-checkbox input:disabled ~ .opfab-checkbox-checkmark::after {
+    left: 8px;
+    top: -6px;
+    width: 10px;
+    height: 20px;
+    border: solid gray;
+    border-width: 0 4px 4px 0;
+    transform: rotate(45deg);
+}
+
+/* END CHECKBOX */
+
+/* RADIO BUTTON */
+
+/* The container */
+.opfab-radio-button {
+    display: block;
+    position: relative;
+    padding-left: 25px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    font-size: 13px;
+}
+
+/* Hide the browser's default radio button */
+.opfab-radio-button input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+}
+
+/* Create a custom radio button */
+.opfab-radio-button-checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 17px;
+    width: 17px;
+    border: 1px solid var(--opfab-text-color);
+    border-radius: 50%;
+}
+
+/* Create the indicator (the dot/circle - hidden when not checked) */
+.opfab-radio-button-checkmark::after {
+    content: '';
+    position: absolute;
+    display: none;
+}
+
+/* Style the indicator (dot/circle) */
+.opfab-radio-button .opfab-radio-button-checkmark::after {
+    top: 17%;
+    left: 17%;
+    width: 65%;
+    height: 65%;
+    border-radius: 50%;
+    background: var(--opfab-text-color);
+}
+
+/* Show the indicator (dot/circle) when checked */
+.opfab-radio-button input:checked ~ .opfab-radio-button-checkmark::after {
+    display: block;
+}
+
+/* END RADIO BUTTON */
+
+/* Chrome  : to avoid browser styling when auto-filling input field (example password)
+* see https://stackoverflow.com/questions/2781549/removing-input-background-colour-for-chrome-autocomplete
+*/
+input:-webkit-autofill {
+    -webkit-text-fill-color: var(--opfab-input-text-color) !important;
+}
+
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+    box-shadow: 0 0 0 30px var(--opfab-bgcolor) inset !important;
+}
+
+
+/* TEXTAREA FIELD STYLE */
+
+.opfab-textarea {
+    color: var(--opfab-input-text-color);
+    background-color: var(--opfab-bgcolor-darker);
+    box-sizing: border-box;
+    border: 1px solid var(--opfab-form-border-color);
+    border-radius: 3px;
+    font-size: 13px;
+    outline: none;
+}
+
+.opfab-textarea > textarea {
+    background-color: var(--opfab-bgcolor-darker);
+    color: var(--opfab-input-text-color);
+    padding: 10px;
+    width: calc(100% - 4px);
+    border: none;
+    outline: none;
+    appearance: none;
+}
+
+.opfab-textarea > label {
+    margin-left: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+    position: absolute;
+    font-size: 11px;
+    margin-top: -10px;
+    left: 10;
+    color: var(--opfab-form-label-text-color);
+    background-color: var(--opfab-bgcolor-darker);
+}
+
+/* Table */
+
+.opfab-table {
+    background-color: var(--opfab-bgcolor-darker);
+    color: var(--opfab-lightcard-detail-textcolor);
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-bottom: 5px;
+}
+
+.opfab-table table {
+    text-align: left;
+    border-bottom: 1px solid var(--opfab-table-border-color);
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.opfab-table tr {
+    height: 42px;
+    color: var(--opfab-text-color);
+}
+
+.opfab-table tr:nth-child(even) {
+    background-color: var(--opfab-bgcolor);
+}
+
+.opfab-table th {
+    color: var(--opfab-text-color);
+    height: 70px;
+    border-top: 1px solid var(--opfab-table-border-color);
+    border-bottom: 1px solid var(--opfab-table-border-color);
+}
+
+/* #2588 : Logging screen : summary column extends without limit if the message contains no space character */
+.opfab-table td {
+    overflow: hidden;
+    word-break: break-all;
+}
+
+.opfab-pagination {
+    padding-top: 6px;
+    padding-left: 10px;
+    width: 100%;
+    display: flex;
+    color: var(--opfab-text-color-stronger);
+    font-size: 14px;
+}
+
+/* Border box */
+
+.opfab-border-box {
+    color: var(--opfab-input-text-color);
+    position: relative;
+    box-sizing: border-box;
+    padding: 10px;
+    border: 1px solid var(--opfab-form-border-color);
+    border-radius: 3px;
+    outline: none;
+}
+
+.opfab-border-box > label {
+    padding-left: 10px;
+    padding-right: 10px;
+    position: absolute;
+    font-size: 11px;
+    top: -10px;
+    left: 10;
+    color: var(--opfab-form-label-text-color);
+    background-color: var(--opfab-bgcolor-darker);
+}
+
+
+
+/* VIRTUAL MULTI SELECT */
+
+.opfab-multiselect {
+    position: relative;
+}
+
+.opfab-multiselect > label {
+    margin-left: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+    position: absolute;
+    font-size: 11px;
+    top: -10px;
+    left: 10;
+    color: var(--opfab-form-label-text-color);
+    background-color: var(--opfab-bgcolor-darker);
+    z-index: 1;
+}
+
+/* Border and background select field */
+.vscomp-toggle-button {
+    background-color: var(--opfab-bgcolor-darker);
+    border: 1px solid var(--opfab-form-border-color);
+    min-height: 48px;
+    color: var(--opfab-text-color-stronger);
+}
+
+.vscomp-option-text {
+    font-family: var(--opfab-font-family);
+    font-size: 13px;
+}
+
+/* Select width
+* Necessary while https://github.com/sa-si-dev/virtual-select/issues/127 is not solved
+*/
+.vscomp-ele {
+    max-width: 2000px;
+}
+
+/* Tags */
+.vscomp-wrapper.show-value-as-tags .vscomp-value-tag {
+    border: 0 solid var(--opfab-form-border-color);
+    border-radius: 2px;
+    color: white;
+    background-color: var(--opfab-color-blue);
+    z-index: 1;
+    font-family: var(--opfab-font-family);
+    font-size: 13px;
+}
+
+/* Cross to remove tag */
+.vscomp-value-tag-clear-button > .vscomp-clear-icon::before,
+.vscomp-value-tag-clear-button > .vscomp-clear-icon::after {
+    background-color: white;
+}
+
+/* Cross to remove all tags */
+.vscomp-clear-button > .vscomp-clear-icon::before,
+.vscomp-clear-button > .vscomp-clear-icon::after {
+    background-color: var(--opfab-text-color);
+}
+
+.vscomp-wrapper.show-value-as-tags.has-value .vscomp-clear-button {
+    right: 28px;
+    top: 10px;
+}
+
+/* Avoid tags to override the cross */
+.vscomp-value {
+    padding-right: 25px;
+    font-family: var(--opfab-font-family);
+    font-size: 13px;
+}
+
+/* Right arrow when nothing selected */
+.opfab-multiselect::after {
+    content: 'V';
+    transform: scaleY(0.5);
+    position: absolute;
+    margin-right: 5px;
+    top: 0;
+    right: 0;
+    width: 30px;
+    text-align: center;
+    font-size: 30px;
+    color: var(--opfab-text-color);
+    pointer-events: none;
+}
+
+/* Hide existing arrow */
+
+.vscomp-arrow::after {
+    color: var(--opfab-bgcolor);
+    border-right-color: var(--opfab-color);
+    border-bottom-color: var(--opfab-color);
+}
+
+/* Check icon in dropdown */
+.vscomp-wrapper .checkbox-icon.checked::after,  /* select all */
+.vscomp-wrapper.multiple .vscomp-option.selected .checkbox-icon::after /* select option */ {
+    border-right-color: var(--opfab-color-blue);
+    border-bottom-color: var(--opfab-color-blue);
+}
+
+/* END VIRTUAL MULTI SELECT */
+
+/* Class to use when background form is lighter */
+
+.opfab-form-lighter .opfab-input {
+    background-color: var(--opfab-bgcolor);
+}
+
+.opfab-form-lighter .opfab-input > input {
+    background-color: var(--opfab-bgcolor);
+}
+
+.opfab-form-lighter .opfab-input label {
+    background-color: var(--opfab-bgcolor);
+}
+
+.opfab-form-lighter .opfab-textarea {
+    background-color: var(--opfab-bgcolor);
+}
+
+.opfab-form-lighter .opfab-textarea > textarea {
+    background-color: var(--opfab-bgcolor);
+}
+
+.opfab-form-lighter .opfab-textarea label {
+    background-color: var(--opfab-bgcolor);
+}
+
+.opfab-form-lighter .opfab-select {
+    background-color: var(--opfab-bgcolor);
+}
+
+.opfab-form-lighter .opfab-select > select {
+    background-color: var(--opfab-bgcolor);
+}
+
+.opfab-form-lighter .opfab-select > select option {
+    background-color: var(--opfab-bgcolor);
+}
+
+.opfab-form-lighter .opfab-select label {
+    background-color: var(--opfab-bgcolor);
+}
+
+.opfab-form-lighter .opfab-multiselect label {
+    background-color: var(--opfab-bgcolor);
+}
+
+.opfab-form-lighter .vscomp-toggle-button {
+    background-color: var(--opfab-bgcolor);
+}
+
+.opfab-form-lighter .opfab-border-box > label {
+    background-color: var(--opfab-bgcolor);
+}
+
+/* BUTTON STYLE */
+
+.opfab-btn {
+    color: white;
+    background-color: var(--opfab-color-blue);
+    border-width: 0;
+    border-radius: 2px;
+    border-color: var(--opfab-color-blue);
+    height: 40px;
+    font-size: 14px;
+    font-weight: 600;
+    margin: 10px;
+    padding: 10px;
+    min-width: 150px;
+}
+
+.opfab-btn:focus {
+    outline: none;
+}
+
+.opfab-btn:hover {
+    background-color: var(--opfab-color-darker-blue);
+}
+
+.opfab-btn:disabled {
+    color: #606267;
+    background-color: var(--opfab-button-disable-bgcolor);
+}
+
+.opfab-btn-cancel {
+    color: var(--opfab-color-blue);
+    outline: none;
+    background-color: var(--opfab-bg-color);
+    border-width: 0;
+    border-radius: 2px;
+    height: 40px;
+    font-size: 14px;
+    font-weight: 600;
+    margin: 10px;
+    padding: 10px;
+    min-width: 150px;
+}
+
+.opfab-btn-cancel:hover {
+    color: var(--opfab-color-darker-blue);
+}
+
+/* END BUTTON STYLE */
+
+.opfab-tooltip {
+    position: relative; /* making the .tooltip span a container for the tooltip text */
+    font-weight: normal;
+    font-style: normal;
+    width: fit-content;
+}
+
+.opfab-tooltip-content {
+    position: absolute;
+
+    /* vertically center */
+    top: 50%;
+    transform: translateY(-50%);
+
+    /* move to right */
+    left: 100%;
+    margin-left: 15px; /* and add a small left margin */
+
+    /* basic styles */
+    width: fit-content;
+    min-width: 200px;
+    padding: 10px;
+    border-radius: 10px;
+    background: var(--opfab-tooltip-template-bgcolor);
+    border: 1px solid var(--opfab-tooltip-template-border-color);
+    color: var(--opfab-text-color);
+    font-size: 15px;
+    text-align: center;
+    display: none; /* hide by default */
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.opfab-tooltip-content::after {
+    content: "";
+    position: absolute;
+
+    /* set new values */
+    right: 100%;
+
+    /* vertically center */
+    top: 50%;
+    transform: translateY(-50%);
+  
+    /* the arrow */
+    border: 8px solid var(--opfab-tooltip-template-arrow-color);
+    border-color:  transparent var(--opfab-tooltip-template-arrow-color) transparent transparent;
+ 
+
+}
+
+.opfab-tooltip-content.left {
+    position: absolute;
+
+    /* vertically center */
+    top: 50%;
+    transform: translateY(-50%);
+
+    /* reset defaults */
+    left: initial;
+    margin: initial;
+
+    /* move to left */
+    right: 100%;
+    margin-right: 15px; /* and add a small left margin */
+
+    /* basic styles */
+    width: fit-content;
+    min-width: 200px;
+    padding: 10px;
+    border-radius: 10px;
+    background: var(--opfab-tooltip-template-bgcolor);
+    color: var(--opfab-text-color);
+    text-align: center;
+    display: none; /* hide by default */
+    opacity: 0;
+    transition: opacity .3s;
+}
+
+.opfab-tooltip-content.left::after {
+    content: "";
+    position: absolute;
+
+    /* set new values */
+    left: 100%;
+
+    /* vertically center */
+    top: 50%;
+    transform: translateY(-50%);
+    width: fit-content;
+
+    /* the arrow */
+    border: 8px solid var(--opfab-tooltip-template-bgcolor);
+    border-color: transparent transparent transparent var(--opfab-tooltip-template-arrow-color);
+
+}
+
+.opfab-tooltip-content.top {
+    position: absolute;
+
+    /* reset defaults */
+    top: initial;
+    margin: initial;
+
+    /* set new values */
+    bottom: 100%;
+    margin-bottom: 10px;
+
+    /* horizontally center */
+    left: 50%;
+    transform: translateX(-50%);
+
+    /* basic styles */
+    width: fit-content;
+    min-width: 200px;
+    padding: 10px;
+    border-radius: 10px;
+    background: var(--opfab-tooltip-template-bgcolor);
+    color: var(--opfab-text-color);
+    text-align: center;
+    display: none; /* hide by default */
+    opacity: 0;
+    transition: opacity .3s;
+}
+
+.opfab-tooltip-content.top::after {
+    content: "";
+    position: absolute;
+
+    /* set new values */
+    top: 100%;
+    margin-bottom: -5px;
+
+    /* horizontally center */
+    left: 50%;
+    transform: translateX(-50%);
+    width: fit-content;
+
+    /* the arrow */
+    border: 8px solid var(--opfab-tooltip-template-bgcolor);
+    border-color: var(--opfab-tooltip-template-arrow-color) transparent transparent;
+}
+
+.opfab-tooltip-content.bottom {
+    position: absolute;
+
+    /* reset defaults */
+    bottom: initial;
+    margin: initial;
+
+    /* set new values */
+    top: 100%;
+    margin-top: 10px;
+
+    /* horizontally center */
+    left: 50%;
+    transform: translateX(-50%);
+
+    /* basic styles */
+    width: fit-content;
+    min-width: 200px;
+    padding: 10px;
+    border-radius: 10px;
+    background: var(--opfab-tooltip-template-bgcolor);
+    color: var(--opfab-text-color);
+    text-align: center;
+    display: none; /* hide by default */
+    opacity: 0;
+    transition: opacity .3s;
+}
+
+.opfab-tooltip-content.bottom::after {
+    content: '';
+    position: absolute;
+
+    /* reset defaults */
+    top: initial;
+
+    /* set new values */
+    bottom: 100%;
+    margin-top: 5px;
+
+    /* horizontally center */
+    left: 50%;
+    transform: translateX(-50%);
+    width: fit-content;
+
+    /* the arrow */
+    border: 8px solid var(--opfab-tooltip-template-arrow-color);
+    border-color:  transparent transparent var(--opfab-tooltip-template-arrow-color);
+}
+
+.opfab-form-lighter .opfab-tooltip-content {
+    background: var(--opfab-tooltip-template-bgcolor-for-form-lighter);
+}
+
+.opfab-form-lighter .opfab-tooltip-content.left {
+    background: var(--opfab-tooltip-template-bgcolor-for-form-lighter);
+}
+
+.opfab-form-lighter .opfab-tooltip-content.top {
+    background: var(--opfab-tooltip-template-bgcolor-for-form-lighter);
+}
+
+.opfab-form-lighter .opfab-tooltip-content.bottom {
+    background: var(--opfab-tooltip-template-bgcolor-for-form-lighter);
+}
+
+
+.opfab-tooltip:hover .opfab-tooltip-content {
+    display: block;
+    opacity: 1;
+}
+
+
+.opfab-badge {
+    color: white;
+    font-size: 0.75em;
+    font-weight: 700;
+    line-height: 1;
+    text-align: center;
+    border-radius: 0.375rem;
+    padding : 0.35em 0.65em;
+    vertical-align: baseline;
+    white-space: nowrap;
+    display: inline-block;
+}
+
+
+.opfab-rounded-badge {
+    color: white;
+    font-size: 0.75em;
+    font-weight: 700;
+    line-height: 1;
+    text-align: center;
+    border-radius: 50rem;
+    padding : 0.35em 0.65em;
+    vertical-align: baseline;
+    white-space: nowrap;
+    display: inline-block;
+}
+
+.opfab-dialog {
+    background-color: var(--opfab-bgcolor);
+    color: var(--opfab-text-color);
+    border-radius: 3px;
+    border-width: 0;
+}
+
+.opfab-dialog::backdrop {
+    background: rgb(0 0 0 / 50%);
+}

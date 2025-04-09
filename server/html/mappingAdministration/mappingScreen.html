@@ -1,17 +1,19 @@
+<!DOCTYPE html>
 <html>
     <head>
         <!--Virtual select import-->
         <link rel="stylesheet" href="virtual-select/virtual-select.min.css">
         <script src="virtual-select/virtual-select.min.js"></script>
 
-        <link rel="stylesheet" href="/shared/css/opfab-application.css">
+        <!-- <link rel="stylesheet" href="/shared/css/opfab-application.css"> -->
+        <link rel="stylesheet" href="opfab-application.css">
         <script src="/shared/js/opfab-application.js"></script>
         <script src="mappingAdministration.js"></script>
     </head>
 
     <body class="opfab-colors" hidden>
-        <dialog id="form-dialog" class="opfab-dialog" style="overflow: visible; padding: 0;">
-            <div style="background-color: var(--opfab-bgcolor-darker); padding: 10px;">
+        <dialog id="form-dialog" class="opfab-dialog" style="overflow: visible;">
+            <div class="opfab-form-lighter" style="padding: 10px;">
                 <form>
                     <div style="display: flex; justify-content: center; margin-bottom: 30px;">
                         <div class="opfab-multiselect" style="min-width: 300px; margin-top: 10px;">
@@ -43,13 +45,23 @@
             </div>
         </dialog>
 
+        <dialog id="confirm-dialog" class="opfab-dialog">
+            <div style="padding: 10px; text-align: center;">
+                <h3>CONFIRM DELETE ?</h3>
+                <form method="dialog">
+                    <button class="opfab-btn" type="submit" value="ok" style="cursor: pointer;">OK</button>
+                    <button class="opfab-btn-cancel" type="submit" value="" style="cursor: pointer;">CANCEL</button>
+                </form>
+            </div>
+        </dialog>
+
         <div class="opfab-table" style="margin-left: 5%; margin-right: 5%;">
             <table>
                 <thead>
                     <tr>
-                        <th>Alert Rule</th>
-                        <th>Entity recipients</th>
-                        <th>Severity</th>
+                        <th>ALERT RULE</th>
+                        <th>ENTITY RECIPIENTS</th>
+                        <th>SEVERITY</th>
                         <th></th>
                         <th></th>
                     </tr>

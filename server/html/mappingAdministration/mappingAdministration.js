@@ -10,6 +10,7 @@ async function init() {
             document.querySelector('#alertrule-select').setDisabledOptions(Array.from(config.mappings.keys()), true);
             document.querySelector('#form-dialog').showModal();
         });
+
         document.body.removeAttribute('hidden');
     }
 }
@@ -34,34 +35,58 @@ function initTable() {
     });
 }
 
-function createTableRow (uid, data) {
+function createTableRow(uid, data) {
+    const uidExists = config.alertRules.has(uid);
     const row = createHtmlElement('tr', {id: uid});
 
-    row.insertCell().textContent = config.alertRules.get(uid) ?? uid;
+    const alertRuleCell = row.insertCell();
+    if (uidExists) alertRuleCell.textContent = config.alertRules.get(uid);
+    else {
+        alertRuleCell.style.cssText = 'color: red';
+        alertRuleCell.textContent = uid;
+    }
     row.insertCell().textContent = data.recipients.map((entityId) => config.entities.get(entityId) ?? entityId);
 
     const firingDiv = createHtmlElement('div', {
-        text: 'Firing : ' + (data.firingSeverity ?? '/'),
-        style: 'margin-top: 10px; margin-bottom: 10px'
+        text: 'Firing :',
+        style: 'display: flex; align-items: center; column-gap: 8px; margin-bottom: 10px'
     });
+    if (data.firingSeverity) {
+        firingDiv.append(
+            createHtmlElement('div', {
+                style: `min-width: 10px; min-height: 25px; background-color: var(--opfab-color-severity-${data.firingSeverity.toLowerCase()})`
+            }),
+            data.firingSeverity
+        );
+    } else firingDiv.textContent += ' /';
+
     const resolvedDiv = createHtmlElement('div', {
-        text: 'Resolved : ' + (data.resolvedSeverity ?? '/'),
-        style: 'margin-bottom: 10px'
+        text: 'Resolved :',
+        style: 'display: flex; align-items: center; column-gap: 8px'
     });
+    if (data.resolvedSeverity) {
+        resolvedDiv.append(
+            createHtmlElement('div', {
+                style: `min-width: 10px; min-height: 25px; background-color: var(--opfab-color-severity-${data.resolvedSeverity.toLowerCase()})`
+            }),
+            data.resolvedSeverity
+        );
+    } else resolvedDiv.textContent += ' /';
+
     row.insertCell().append(firingDiv, resolvedDiv);
 
-    const editButton = config.alertRules.has(uid)
-    ? createHtmlElement('button', {
-        text: 'EDIT',
-        style: 'cursor: pointer',
-        class: 'opfab-btn'
-    })
-    : createHtmlElement('button', {
-        text: 'EDIT',
-        style: 'cursor: not-allowed',
-        disabled: '',
-        class: 'opfab-btn'
-    });
+    const editButton = uidExists
+        ? createHtmlElement('button', {
+            text: 'EDIT',
+            style: 'cursor: pointer',
+            class: 'opfab-btn'
+        })
+        : createHtmlElement('button', {
+            text: 'EDIT',
+            style: 'cursor: not-allowed',
+            disabled: '',
+            class: 'opfab-btn'
+        });
     editButton.addEventListener('click', tableEditClicked);
     row.insertCell().append(editButton);
 
@@ -101,28 +126,34 @@ function tableEditClicked(event) {
 }
 
 async function tableDeleteClicked(event) {
-    const row = event.target.closest('tr');
-    const uid = row.getAttribute('id');
-    try {
-        await sendRequest(mappingServiceUrl + '/' + uid, {method: 'DELETE'});
-        config.mappings.delete(uid);
-        row.remove();
-    } catch (err) {
-        console.log('Error deleting mapping,', err);
+    if (await confirmDelete()) {
+        const row = event.target.closest('tr');
+        const uid = row.getAttribute('id');
+        try {
+            await sendRequest(mappingServiceUrl + '/' + uid, {method: 'DELETE'});
+            config.mappings.delete(uid);
+            row.remove();
+        } catch (err) {
+            console.log('Error deleting mapping,', err);
+        }
     }
+}
+
+function confirmDelete() {
+    const confirmDialog = document.querySelector('#confirm-dialog');
+    return new Promise((resolve) => {
+        confirmDialog.addEventListener('close', () => {
+            resolve(confirmDialog.returnValue);
+        }, {once: true});
+        confirmDialog.showModal();
+    });
 }
 
 function updateTable(uid, data) {
     const row = document.querySelector(`#${uid}`);
+    const newRow = createTableRow(uid, data);
 
-    if (row != null) {
-        row.cells[1].textContent = data.recipients.map((entityId) => config.entities.get(entityId) ?? entityId);
-        const severityDivs = row.cells[2].querySelectorAll('div');
-        severityDivs[0].textContent = 'Firing : ' + (data.firingSeverity ?? '/');
-        severityDivs[1].textContent = 'Resolved : ' + (data.resolvedSeverity ?? '/');
-    } else {
-        document.querySelector('#mappings-tbody').append(createTableRow(uid, data));
-    }
+    row ? row.replaceWith(newRow) : document.querySelector('#mappings-tbody').append(newRow);
 }
 
 function initForm() {
@@ -172,12 +203,10 @@ function initForm() {
 }
 
 function severityOptionRenderer(data) {
-    const div = `
-        <div style="display: flex; align-items: center">
-            <div style="min-width: 10px; min-height: 25px; margin-right: 8px; background-color: var(--opfab-color-severity-${data.value.toLowerCase()})"></div>
-            ${data.label}
-        </div>`;
-    return div;
+    return `<div style="display: flex; align-items: center; column-gap: 8px">
+                <div style="min-width: 10px; min-height: 25px; background-color: var(--opfab-color-severity-${data.value.toLowerCase()})"></div>
+                ${data.label}
+            </div>`;
 }
 
 async function formSubmit(event) {
@@ -188,14 +217,14 @@ async function formSubmit(event) {
         const formData = new FormData(form);
         const mappingData = {
             recipients: formData.get('entities').split(','),
-            ...((sev = formData.get('firing-sev')) && {firingSeverity: sev}),
-            ...((sev = formData.get('resolved-sev')) && {resolvedSeverity: sev})
+            firingSeverity: formData.get('firing-sev'),
+            resolvedSeverity: formData.get('resolved-sev')
         };
 
         try {
             await sendRequest(mappingServiceUrl + '/' + alertRuleUid, {
                 method: 'POST',
-                headers: {"Content-Type": "application/json"},
+                headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify(mappingData)
             });
             config.mappings.set(alertRuleUid, mappingData);

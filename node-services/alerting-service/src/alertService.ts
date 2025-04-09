@@ -40,7 +40,7 @@ export default class AlertService {
     private buildCard(alert: any): any {
         const defaultMappingData = this.mappingService.getDefaultMappingData();
         const mappingData = this.mappingService.getMappingData(alert.ruleUid);
-        if (mappingData?.recipients === undefined) return;
+        if (!mappingData?.recipients) return;
         const card = {...this.cardTemplate};
 
         card.processInstanceId = alert.fingerprint + alert.startsAt.toString();
@@ -51,11 +51,11 @@ export default class AlertService {
         card.data = {alertName: alert.labels.grafana_folder + '/' + alert.labels.alertname};
         if (alert.status === 'firing') {
             card.state = 'firingState';
-            card.severity = mappingData?.firingSeverity ?? defaultMappingData.firingSeverity;
+            card.severity = mappingData.firingSeverity || defaultMappingData.firingSeverity;
             card.data.panelUrl = this.transformPanelUrl(alert.panelURL, alert.startsAt);
         } else {
             card.state = 'resolvedState';
-            card.severity = mappingData?.resolvedSeverity ?? defaultMappingData.resolvedSeverity;
+            card.severity = mappingData.resolvedSeverity || defaultMappingData.resolvedSeverity;
             card.data.panelUrl = this.transformPanelUrl(alert.panelURL, alert.startsAt, alert.endsAt);
             card.endDate = alert.endsAt;
         }
