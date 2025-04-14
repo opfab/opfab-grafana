@@ -7,12 +7,17 @@ async function init() {
         initTable();
         initForm();
         document.querySelector('#add-button').addEventListener('click', () => {
-            document.querySelector('#alertrule-select').setDisabledOptions(Array.from(config.mappings.keys()), true);
-            document.querySelector('#form-dialog').showModal();
+            const allMapped = Array.from(config.alertRules.keys()).every((uid) => config.mappings.has(uid));
+
+            if (allMapped) document.querySelector('#all-mapped-dialog').showModal();
+            else {
+                document.querySelector('#alertrule-select').setDisabledOptions(Array.from(config.mappings.keys()), true);
+                document.querySelector('#form-dialog').showModal();
+            }
         });
 
-        document.body.removeAttribute('hidden');
-    }
+        document.querySelector('#content').removeAttribute('hidden');
+    } else document.querySelector('#no-config').removeAttribute('hidden');
 }
 
 async function fetchConfig() {
@@ -49,7 +54,7 @@ function createTableRow(uid, data) {
 
     const firingDiv = createHtmlElement('div', {
         text: 'Firing :',
-        style: 'display: flex; align-items: center; column-gap: 8px; margin-bottom: 10px'
+        style: 'display: flex; align-items: center; column-gap: 8px; margin-top: 10px; margin-bottom: 10px'
     });
     if (data.firingSeverity) {
         firingDiv.append(
@@ -62,7 +67,7 @@ function createTableRow(uid, data) {
 
     const resolvedDiv = createHtmlElement('div', {
         text: 'Resolved :',
-        style: 'display: flex; align-items: center; column-gap: 8px'
+        style: 'display: flex; align-items: center; column-gap: 8px; margin-bottom: 10px'
     });
     if (data.resolvedSeverity) {
         resolvedDiv.append(
@@ -93,7 +98,7 @@ function createTableRow(uid, data) {
     const deleteButton = createHtmlElement('button', {
         text: 'DELETE',
         style: 'cursor: pointer',
-        class: 'opfab-btn'
+        class: 'opfab-btn-cancel'
     });
     deleteButton.addEventListener('click', tableDeleteClicked);
     row.insertCell().append(deleteButton);
@@ -140,7 +145,7 @@ async function tableDeleteClicked(event) {
 }
 
 function confirmDelete() {
-    const confirmDialog = document.querySelector('#confirm-dialog');
+    const confirmDialog = document.querySelector('#confirm-delete-dialog');
     return new Promise((resolve) => {
         confirmDialog.addEventListener('close', () => {
             resolve(confirmDialog.returnValue);

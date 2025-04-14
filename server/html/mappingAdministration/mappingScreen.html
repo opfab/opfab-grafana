@@ -11,66 +11,81 @@
         <script src="mappingAdministration.js"></script>
     </head>
 
-    <body class="opfab-colors" hidden>
-        <dialog id="form-dialog" class="opfab-dialog" style="overflow: visible;">
-            <div class="opfab-form-lighter" style="padding: 10px;">
-                <form>
-                    <div style="display: flex; justify-content: center; margin-bottom: 30px;">
-                        <div class="opfab-multiselect" style="min-width: 300px; margin-top: 10px;">
-                            <label>ALERT RULE</label>
-                            <div id="alertrule-select" name="alertrule"></div>
-                        </div>
-                    </div>
-                    <div style="display: flex; justify-content: center; column-gap: 50px;">
-                        <div class="opfab-multiselect" style="min-width: 300px;">
-                            <label>ENTITY RECIPIENTS</label>
-                            <div id="entities-select" name="entities"></div>
-                        </div>
-                        <div>
-                            <div class="opfab-multiselect" style="min-width: 300px; margin-bottom: 40px;">
-                                <label>FIRING SEVERITY</label>
-                                <div id="firing-sev-select" name="firing-sev"></div>
+    <body class="opfab-colors" style="height: auto;">
+        <div id="content" hidden>
+            <dialog id="form-dialog" class="opfab-dialog" style="overflow: visible;">
+                <div class="opfab-form-lighter" style="padding: 10px;">
+                    <form>
+                        <div style="display: flex; justify-content: center; margin-bottom: 30px;">
+                            <div class="opfab-multiselect" style="min-width: 300px; margin-top: 10px;">
+                                <label>ALERT RULE</label>
+                                <div id="alertrule-select" name="alertrule"></div>
                             </div>
+                        </div>
+                        <div style="display: flex; justify-content: center; column-gap: 50px;">
                             <div class="opfab-multiselect" style="min-width: 300px;">
-                                <label>RESOLVED SEVERITY</label>
-                                <div id="resolved-sev-select" name="resolved-sev"></div>
+                                <label>ENTITY RECIPIENTS</label>
+                                <div id="entities-select" name="entities"></div>
+                            </div>
+                            <div>
+                                <div class="opfab-multiselect" style="min-width: 300px; margin-bottom: 40px;">
+                                    <label>FIRING SEVERITY</label>
+                                    <div id="firing-sev-select" name="firing-sev"></div>
+                                </div>
+                                <div class="opfab-multiselect" style="min-width: 300px;">
+                                    <label>RESOLVED SEVERITY</label>
+                                    <div id="resolved-sev-select" name="resolved-sev"></div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div style="display: flex; justify-content: center">
-                        <button id="submit-button" class="opfab-btn" type="button" style="cursor: pointer;">SAVE</button>
-                        <button id="cancel-button" class="opfab-btn-cancel" type="button" style="cursor: pointer;">CANCEL</button>
-                    </div>
-                </form>
-            </div>
-        </dialog>
+                        <div style="display: flex; justify-content: center">
+                            <button id="submit-button" class="opfab-btn" type="button" style="cursor: pointer;">SAVE</button>
+                            <button id="cancel-button" class="opfab-btn-cancel" type="button" style="cursor: pointer;">CANCEL</button>
+                        </div>
+                    </form>
+                </div>
+            </dialog>
 
-        <dialog id="confirm-dialog" class="opfab-dialog">
-            <div style="padding: 10px; text-align: center;">
-                <h3>CONFIRM DELETE ?</h3>
-                <form method="dialog">
-                    <button class="opfab-btn" type="submit" value="ok" style="cursor: pointer;">OK</button>
-                    <button class="opfab-btn-cancel" type="submit" value="" style="cursor: pointer;">CANCEL</button>
-                </form>
-            </div>
-        </dialog>
+            <dialog id="confirm-delete-dialog" class="opfab-dialog">
+                <div style="padding: 10px; text-align: center;">
+                    <h3>Confirm delete ?</h3>
+                    <form method="dialog">
+                        <button class="opfab-btn" type="submit" value="ok" style="cursor: pointer;">OK</button>
+                        <button class="opfab-btn-cancel" type="submit" value="" style="cursor: pointer;">CANCEL</button>
+                    </form>
+                </div>
+            </dialog>
 
-        <div class="opfab-table" style="margin-left: 5%; margin-right: 5%;">
-            <table>
-                <thead>
-                    <tr>
-                        <th>ALERT RULE</th>
-                        <th>ENTITY RECIPIENTS</th>
-                        <th>SEVERITY</th>
-                        <th></th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody id="mappings-tbody"></tbody>
-            </table>
+            <dialog id="all-mapped-dialog" class="opfab-dialog">
+                <div style="padding: 10px; text-align: center;">
+                    <h3>All alert rules are already mapped.</h3>
+                    <form method="dialog">
+                        <button class="opfab-btn" type="submit" style="cursor: pointer;">OK</button>
+                    </form>
+                </div>
+            </dialog>
+
+            <div class="opfab-table" style="margin-left: 5%; margin-right: 5%;">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ALERT RULE</th>
+                            <th>ENTITY RECIPIENTS</th>
+                            <th>SEVERITY</th>
+                            <th style="width: 1%;"></th>
+                            <th style="width: 1%;"></th>
+                        </tr>
+                    </thead>
+                    <tbody id="mappings-tbody"></tbody>
+                </table>
+            </div>
+            <div style="text-align: center;">
+                <button id="add-button" class="opfab-btn" style="cursor: pointer;">NEW MAPPING</button>
+            </div>
         </div>
-        <div style="display: flex; justify-content: center;">
-            <button id="add-button" class="opfab-btn" style="text-align: center; cursor: pointer;">ADD MAPPING</button>
+
+        <div id="no-config" style="text-align: center; margin-top: 100px; font-size: 20px;" hidden>
+            Config not available.
         </div>
     </body>
 </html>
