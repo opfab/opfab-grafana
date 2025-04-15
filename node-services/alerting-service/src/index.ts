@@ -15,7 +15,7 @@ const mappingService = new MappingService(
 );
 const alertService = new AlertService(
     config.get('operatorfabric.alerting.cardTemplate'),
-    config.get('operatorfabric.alerting.panelRangeOffset'),
+    config.get('operatorfabric.alerting.panelRangeOffsetMs'),
     mappingService
 );
 

@@ -53,6 +53,11 @@ export default class AlertService {
             card.state = 'firingState';
             card.severity = mappingData.firingSeverity || defaultMappingData.firingSeverity;
             card.data.panelUrl = this.transformPanelUrl(alert.panelURL, alert.startsAt);
+            card.data.archivePanelUrl = this.transformPanelUrl(
+                alert.panelURL,
+                alert.startsAt,
+                alert.startsAt + this.panelRangeOffset
+            );
         } else {
             card.state = 'resolvedState';
             card.severity = mappingData.resolvedSeverity || defaultMappingData.resolvedSeverity;

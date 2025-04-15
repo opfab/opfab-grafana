@@ -14,7 +14,7 @@ operatorfabric:
       publisher: opfab
       processVersion: '1'
       process: alertingProcess
-    panelRangeOffset: 60000
+    panelRangeOffsetMs: 60000
     port: 2109
     mapping:
       configFilePath: "mapping/config.json"
