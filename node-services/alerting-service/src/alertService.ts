@@ -72,7 +72,7 @@ export default class AlertService {
         const rangeEnd = endsAt ?? 'now';
 
         panelUrl = panelUrl.replace('/d/', '/d-solo/').replace('viewPanel', 'panelId');
-        panelUrl += '&from=' + rangeStart + '&to=' + rangeEnd + '&timezone=browser';
+        panelUrl += '&from=' + rangeStart + '&to=' + rangeEnd + '&timezone=browser&refresh=1s';
         return panelUrl;
     }
 
