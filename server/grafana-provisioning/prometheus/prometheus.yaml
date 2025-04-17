@@ -6,7 +6,7 @@ scrape_configs:
     metrics_path: '/actuator/prometheus'
     static_configs:
       - targets: ['172.17.0.1:2100','172.17.0.1:2102','172.17.0.1:2103','172.17.0.1:2104','172.17.0.1:2105']
-  - job_name: 'node_test_metrics'
+  - job_name: 'network-frequency'
     metrics_path: '/metrics'
     static_configs:
       - targets: ['172.17.0.1:2110']

@@ -2,7 +2,7 @@ apiVersion: 1
 groups:
     - orgId: 1
       name: group_test
-      folder: Opfab
+      folder: Opfab/rules
       interval: 10s
       rules:
         - uid: eee0zny1yjt34f
@@ -96,4 +96,367 @@ groups:
           notification_settings:
             receiver: Opfab alerting service
             group_wait: 0s
+            group_interval: 1s
+    - orgId: 1
+      name: default
+      folder: Opfab/rules/network-frequency
+      interval: 10s
+      rules:
+        - uid: cej6iqjsdc4qof
+          title: low 1
+          condition: C
+          data:
+            - refId: A
+              relativeTimeRange:
+                from: 10
+                to: 0
+              datasourceUid: PBFA97CFB590B2093
+              model:
+                disableTextWrap: false
+                editorMode: builder
+                exemplar: false
+                expr: network_frequency_hertz
+                fullMetaSearch: false
+                includeNullMetadata: true
+                instant: false
+                intervalMs: 5000
+                legendFormat: __auto
+                maxDataPoints: 43200
+                range: true
+                refId: A
+                useBackend: false
+            - refId: B
+              queryType: expression
+              datasourceUid: __expr__
+              model:
+                conditions:
+                    - evaluator:
+                        params:
+                            - 0
+                            - 0
+                        type: gt
+                      operator:
+                        type: and
+                      query:
+                        params: []
+                      reducer:
+                        params: []
+                        type: avg
+                      type: query
+                datasource:
+                    name: Expression
+                    type: __expr__
+                    uid: __expr__
+                expression: A
+                intervalMs: 1000
+                maxDataPoints: 43200
+                reducer: min
+                refId: B
+                type: reduce
+            - refId: C
+              datasourceUid: __expr__
+              model:
+                conditions:
+                    - evaluator:
+                        params:
+                            - 49.5
+                            - 49.8
+                        type: within_range
+                      operator:
+                        type: and
+                      query:
+                        params:
+                            - C
+                      reducer:
+                        params: []
+                        type: last
+                      type: query
+                datasource:
+                    type: __expr__
+                    uid: __expr__
+                expression: B
+                intervalMs: 1000
+                maxDataPoints: 43200
+                refId: C
+                type: threshold
+          dashboardUid: bej2zsisz26f4c
+          panelId: 1
+          noDataState: OK
+          execErrState: Error
+          annotations:
+            __dashboardUid__: bej2zsisz26f4c
+            __panelId__: "1"
+          isPaused: false
+          notification_settings:
+            receiver: Opfab alerting service
+            group_wait: 1s
+            group_interval: 1s
+        - uid: bej6j4up7tp8gb
+          title: low 2
+          condition: C
+          data:
+            - refId: A
+              relativeTimeRange:
+                from: 10
+                to: 0
+              datasourceUid: PBFA97CFB590B2093
+              model:
+                disableTextWrap: false
+                editorMode: builder
+                exemplar: false
+                expr: network_frequency_hertz
+                fullMetaSearch: false
+                includeNullMetadata: true
+                instant: false
+                intervalMs: 5000
+                legendFormat: __auto
+                maxDataPoints: 43200
+                range: true
+                refId: A
+                useBackend: false
+            - refId: B
+              queryType: expression
+              datasourceUid: __expr__
+              model:
+                conditions:
+                    - evaluator:
+                        params:
+                            - 0
+                            - 0
+                        type: gt
+                      operator:
+                        type: and
+                      query:
+                        params: []
+                      reducer:
+                        params: []
+                        type: avg
+                      type: query
+                datasource:
+                    name: Expression
+                    type: __expr__
+                    uid: __expr__
+                expression: A
+                intervalMs: 1000
+                maxDataPoints: 43200
+                reducer: min
+                refId: B
+                type: reduce
+            - refId: C
+              datasourceUid: __expr__
+              model:
+                conditions:
+                    - evaluator:
+                        params:
+                            - 49.5
+                        type: lt
+                      operator:
+                        type: and
+                      query:
+                        params:
+                            - C
+                      reducer:
+                        params: []
+                        type: last
+                      type: query
+                datasource:
+                    type: __expr__
+                    uid: __expr__
+                expression: B
+                intervalMs: 1000
+                maxDataPoints: 43200
+                refId: C
+                type: threshold
+          dashboardUid: bej2zsisz26f4c
+          panelId: 1
+          noDataState: OK
+          execErrState: Error
+          annotations:
+            __dashboardUid__: bej2zsisz26f4c
+            __panelId__: "1"
+          isPaused: false
+          notification_settings:
+            receiver: Opfab alerting service
+            group_wait: 1s
+            group_interval: 1s
+        - uid: fej6jart6gpogd
+          title: high 1
+          condition: C
+          data:
+            - refId: A
+              relativeTimeRange:
+                from: 10
+                to: 0
+              datasourceUid: PBFA97CFB590B2093
+              model:
+                disableTextWrap: false
+                editorMode: builder
+                exemplar: false
+                expr: network_frequency_hertz
+                fullMetaSearch: false
+                includeNullMetadata: true
+                instant: false
+                intervalMs: 5000
+                legendFormat: __auto
+                maxDataPoints: 43200
+                range: true
+                refId: A
+                useBackend: false
+            - refId: B
+              queryType: expression
+              datasourceUid: __expr__
+              model:
+                conditions:
+                    - evaluator:
+                        params:
+                            - 0
+                            - 0
+                        type: gt
+                      operator:
+                        type: and
+                      query:
+                        params: []
+                      reducer:
+                        params: []
+                        type: avg
+                      type: query
+                datasource:
+                    name: Expression
+                    type: __expr__
+                    uid: __expr__
+                expression: A
+                intervalMs: 1000
+                maxDataPoints: 43200
+                reducer: max
+                refId: B
+                settings:
+                    mode: ""
+                type: reduce
+            - refId: C
+              datasourceUid: __expr__
+              model:
+                conditions:
+                    - evaluator:
+                        params:
+                            - 50.2
+                            - 50.5
+                        type: within_range
+                      operator:
+                        type: and
+                      query:
+                        params:
+                            - C
+                      reducer:
+                        params: []
+                        type: last
+                      type: query
+                datasource:
+                    type: __expr__
+                    uid: __expr__
+                expression: B
+                intervalMs: 1000
+                maxDataPoints: 43200
+                refId: C
+                type: threshold
+          dashboardUid: bej2zsisz26f4c
+          panelId: 1
+          noDataState: OK
+          execErrState: Error
+          annotations:
+            __dashboardUid__: bej2zsisz26f4c
+            __panelId__: "1"
+          isPaused: false
+          notification_settings:
+            receiver: Opfab alerting service
+            group_wait: 1s
+            group_interval: 1s
+        - uid: dej6jd2npq4u8c
+          title: high 2
+          condition: C
+          data:
+            - refId: A
+              relativeTimeRange:
+                from: 10
+                to: 0
+              datasourceUid: PBFA97CFB590B2093
+              model:
+                disableTextWrap: false
+                editorMode: builder
+                exemplar: false
+                expr: network_frequency_hertz
+                fullMetaSearch: false
+                includeNullMetadata: true
+                instant: false
+                intervalMs: 5000
+                legendFormat: __auto
+                maxDataPoints: 43200
+                range: true
+                refId: A
+                useBackend: false
+            - refId: B
+              queryType: expression
+              datasourceUid: __expr__
+              model:
+                conditions:
+                    - evaluator:
+                        params:
+                            - 0
+                            - 0
+                        type: gt
+                      operator:
+                        type: and
+                      query:
+                        params: []
+                      reducer:
+                        params: []
+                        type: avg
+                      type: query
+                datasource:
+                    name: Expression
+                    type: __expr__
+                    uid: __expr__
+                expression: A
+                intervalMs: 1000
+                maxDataPoints: 43200
+                reducer: max
+                refId: B
+                settings:
+                    mode: ""
+                type: reduce
+            - refId: C
+              datasourceUid: __expr__
+              model:
+                conditions:
+                    - evaluator:
+                        params:
+                            - 50.5
+                        type: gt
+                      operator:
+                        type: and
+                      query:
+                        params:
+                            - C
+                      reducer:
+                        params: []
+                        type: last
+                      type: query
+                datasource:
+                    type: __expr__
+                    uid: __expr__
+                expression: B
+                intervalMs: 1000
+                maxDataPoints: 43200
+                refId: C
+                type: threshold
+          dashboardUid: bej2zsisz26f4c
+          panelId: 1
+          noDataState: OK
+          execErrState: Error
+          annotations:
+            __dashboardUid__: bej2zsisz26f4c
+            __panelId__: "1"
+          isPaused: false
+          notification_settings:
+            receiver: Opfab alerting service
+            group_wait: 1s
             group_interval: 1s

@@ -23,7 +23,7 @@ export async function getFolders(): Promise<any[]> {
     try {
         const response = await axios({
             method: 'get',
-            url: grafanaUrl + '/api/folders'
+            url: grafanaUrl + '/api/search?type=dash-folder'
         });
         if (response?.data == null) throw new Error('no response data');
         return response.data;
