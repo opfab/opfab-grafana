@@ -1,5 +1,5 @@
 import config from 'config';
-import {getAlertRules, getFolders} from '../common/grafanaInterface';
+import {getAlertRule, getAlertRules, getFolder, getFolders} from '../common/grafanaInterface';
 import {getEntities} from '../common/opfabInterface';
 import MappingConfig from './mappingConfig';
 import MappingData from './mappingDataModel';
@@ -14,33 +14,67 @@ export default class MappingService {
     }
 
     public async getConfig(): Promise<any> {
-        const grafanaFolders = new Map((await getFolders()).map((folder) => [folder.uid, folder.title]));
-        const alertRules = (await getAlertRules()).reduce((validRules: any[], rule) => {
-            if (rule.notification_settings?.receiver === config.get('grafana.contactPointName')) {
-                const folderName = grafanaFolders.get(rule.folderUID) ?? '?';
-                validRules.push([rule.uid, folderName + '/' + rule.title]);
-            }
-            return validRules;
-        }, []);
-        const entities = (await getEntities()).map((entity: any) => [entity.id, entity.name]);
+        const grafanaStructure = new Map();
+        const grafanaFolders = await Promise.all(
+            (await getFolders()).map(async (folder) => [folder.uid, await this.getFolderName(folder.uid)])
+        );
+        const grafanaAlertRules = (await getAlertRules())
+            .filter((rule) => rule.notification_settings?.receiver === config.get('grafana.contactPointName'))
+            .map((rule) => {
+                grafanaStructure.set(rule.uid, rule.folderUID);
+                grafanaStructure.get(rule.folderUID)?.push(rule.uid) ??
+                    grafanaStructure.set(rule.folderUID, [rule.uid]);
+                return [rule.uid, rule.title];
+            });
+
+        const entities = (await getEntities()).map((entity) => [entity.id, entity.name]);
         const mappings = Array.from(this.mappingConfig.getAllMappings());
 
-        return {alertRules, entities, mappings};
+        return {grafanaFolders, grafanaAlertRules, grafanaStructure: Array.from(grafanaStructure), entities, mappings};
     }
 
-    public getDefaultMappingData(): any {
-        return this.defaultMappingData;
+    private async getFolderName(folderUid: string): Promise<string> {
+        let path = '';
+        const folder = await getFolder(folderUid);
+
+        folder.parents?.forEach((parentFolder: any) => {
+            path += parentFolder.title + '/';
+        });
+        return path + folder.title + '/';
     }
 
-    public getMappingData(alertRuleUid: string): MappingData | undefined {
-        return this.mappingConfig.getMappingData(alertRuleUid);
+    public async computeMappingData(alertRuleUid: string): Promise<MappingData | undefined> {
+        const dataResult: MappingData = {
+            recipients: new Array<string>(),
+            firingSeverity: this.defaultMappingData.firingSeverity,
+            resolvedSeverity: this.defaultMappingData.resolvedSeverity
+        };
+        const path = await this.getPath(alertRuleUid);
+        if (!path) return;
+
+        path.forEach((elementUid) => {
+            const data = this.mappingConfig.getMappingData(elementUid);
+            if (data?.recipients) dataResult.recipients = [...new Set(dataResult.recipients.concat(data.recipients))];
+            if (data?.firingSeverity) dataResult.firingSeverity = data.firingSeverity;
+            if (data?.resolvedSeverity) dataResult.resolvedSeverity = data.resolvedSeverity;
+        });
+        return dataResult;
     }
 
-    public setMapping(alertRuleUid: string, data: MappingData): void {
-        this.mappingConfig.setMapping(alertRuleUid, data);
+    private async getPath(alertRuleUid: string): Promise<string[] | undefined> {
+        const folderUid = (await getAlertRule(alertRuleUid)).folderUID;
+        if (!folderUid) return;
+
+        const parentFoldersUid = (await getFolder(folderUid)).parents?.map((parentFolder: any) => parentFolder.uid) ?? [];
+
+        return [...parentFoldersUid, folderUid, alertRuleUid];
     }
 
-    public deleteMapping(alertRuleUid: string): void {
-        this.mappingConfig.deleteMapping(alertRuleUid);
+    public setMapping(elementUid: string, data: MappingData): void {
+        this.mappingConfig.setMapping(elementUid, data);
+    }
+
+    public deleteMapping(elementUid: string): void {
+        this.mappingConfig.deleteMapping(elementUid);
     }
 }
