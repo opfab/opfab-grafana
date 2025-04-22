@@ -29,17 +29,17 @@ export default class MappingConfig {
         return this.mappings;
     }
 
-    public getMappingData(alertRuleUid: string): MappingData | undefined {
-        return this.mappings.get(alertRuleUid);
+    public getMappingData(elementUid: string): MappingData | undefined {
+        return this.mappings.get(elementUid);
     }
 
-    public setMapping(alertRuleUid: string, data: MappingData): void {
-        this.mappings.set(alertRuleUid, data);
+    public setMapping(elementUid: string, data: MappingData): void {
+        this.mappings.set(elementUid, data);
         this.save();
     }
 
-    public deleteMapping(alertRuleUid: string): void {
-        this.mappings.delete(alertRuleUid);
+    public deleteMapping(elementUid: string): void {
+        this.mappings.delete(elementUid);
         this.save();
     }
 }

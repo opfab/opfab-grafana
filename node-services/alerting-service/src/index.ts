@@ -22,13 +22,13 @@ const alertService = new AlertService(
 app.disable('x-powered-by');
 app.use(express.json());
 
-app.post('/alerts', (req, res) => {
+app.post('/alerts', async (req, res) => {
     const alertNotification = req.body;
     logger.info(JSON.stringify(alertNotification, null, 4));
 
-    alertNotification.alerts.forEach((alert: any) => {
-        alertService.processAlert(alert);
-    });
+    for (const alert of alertNotification.alerts) {
+        await alertService.processAlert(alert);
+    }
     res.send();
 });
 
@@ -37,17 +37,17 @@ app.get('/mapping', async (req, res) => {
 });
 
 app.post('/mapping/:uid', (req, res) => {
-    const alertRuleUid: string = req.params.uid;
+    const elementUid: string = req.params.uid;
     const data: MappingData = req.body;
 
-    mappingService.setMapping(alertRuleUid, data);
+    mappingService.setMapping(elementUid, data);
     res.status(204).send();
 });
 
 app.delete('/mapping/:uid', (req, res) => {
-    const alertRuleUid: string = req.params.uid;
+    const elementUid: string = req.params.uid;
 
-    mappingService.deleteMapping(alertRuleUid);
+    mappingService.deleteMapping(elementUid);
     res.status(204).send();
 });
 

@@ -16,10 +16,14 @@
             <dialog id="form-dialog" class="opfab-dialog" style="overflow: visible;">
                 <div class="opfab-form-lighter" style="padding: 10px;">
                     <form>
-                        <div style="display: flex; justify-content: center; margin-bottom: 30px;">
+                        <div style="display: flex; justify-content: center; column-gap: 50px; margin-bottom: 40px;">
+                            <div class="opfab-multiselect" style="min-width: 300px; margin-top: 10px;">
+                                <label>FOLDER</label>
+                                <div id="folder-select" name="folder"></div>
+                            </div>
                             <div class="opfab-multiselect" style="min-width: 300px; margin-top: 10px;">
                                 <label>ALERT RULE</label>
-                                <div id="alertrule-select" name="alertrule"></div>
+                                <div id="rule-select" name="rule"></div>
                             </div>
                         </div>
                         <div style="display: flex; justify-content: center; column-gap: 50px;">
@@ -56,9 +60,9 @@
                 </div>
             </dialog>
 
-            <dialog id="all-mapped-dialog" class="opfab-dialog">
+            <dialog id="no-folders-dialog" class="opfab-dialog">
                 <div style="padding: 10px; text-align: center;">
-                    <h3>All alert rules are already mapped.</h3>
+                    <h3>There are no grafana folders to map.</h3>
                     <form method="dialog">
                         <button class="opfab-btn" type="submit" style="cursor: pointer;">OK</button>
                     </form>
@@ -69,6 +73,7 @@
                 <table>
                     <thead>
                         <tr>
+                            <th>FOLDER</th>
                             <th>ALERT RULE</th>
                             <th>ENTITY RECIPIENTS</th>
                             <th>SEVERITY</th>

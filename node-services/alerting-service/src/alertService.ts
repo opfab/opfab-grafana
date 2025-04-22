@@ -17,8 +17,8 @@ export default class AlertService {
         this.logger = getLogger();
     }
 
-    public processAlert(alert: any): void {
-        alert.ruleUid = this.extractUidFromGeneratorUrl(alert.generatorURL);
+    public async processAlert(alert: any): Promise<void> {
+        alert.ruleUid = this.extractUid(alert.generatorURL);
         alert.startsAt = new Date(alert.startsAt).valueOf();
         alert.endsAt = new Date(alert.endsAt).valueOf();
         const currentStatus = this.alertsCurrentStatus.get(alert.fingerprint);
@@ -29,18 +29,17 @@ export default class AlertService {
         }
 
         this.alertsCurrentStatus.set(alert.fingerprint, {status: alert.status, startsAt: alert.startsAt});
-        const card = this.buildCard(alert);
+        const card = await this.buildCard(alert);
         if (card === undefined) {
-            this.logger.warn(`Card not sent: no recipients mapped for alert rule ${alert.ruleUid}`);
+            this.logger.warn(`Card not sent: no recipients found for alert rule '${alert.ruleUid}'`);
             return;
         }
         sendCard(card);
     }
 
-    private buildCard(alert: any): any {
-        const defaultMappingData = this.mappingService.getDefaultMappingData();
-        const mappingData = this.mappingService.getMappingData(alert.ruleUid);
-        if (!mappingData?.recipients) return;
+    private async buildCard(alert: any): Promise<any> {
+        const mappingData = await this.mappingService.computeMappingData(alert.ruleUid);
+        if (!mappingData?.recipients.length) return;
         const card = {...this.cardTemplate};
 
         card.processInstanceId = alert.fingerprint + alert.startsAt.toString();
@@ -51,32 +50,33 @@ export default class AlertService {
         card.data = {alertName: alert.labels.grafana_folder + '/' + alert.labels.alertname};
         if (alert.status === 'firing') {
             card.state = 'firingState';
-            card.severity = mappingData.firingSeverity || defaultMappingData.firingSeverity;
-            card.data.panelUrl = this.transformPanelUrl(alert.panelURL, alert.startsAt);
+            card.severity = mappingData.firingSeverity;
+            card.data.panelUrl = this.transformPanelUrl(alert.panelURL, alert.startsAt - this.panelRangeOffset);
             card.data.archivePanelUrl = this.transformPanelUrl(
                 alert.panelURL,
-                alert.startsAt,
+                alert.startsAt - this.panelRangeOffset,
                 alert.startsAt + this.panelRangeOffset
             );
         } else {
-            card.state = 'resolvedState';
-            card.severity = mappingData.resolvedSeverity || defaultMappingData.resolvedSeverity;
-            card.data.panelUrl = this.transformPanelUrl(alert.panelURL, alert.startsAt, alert.endsAt);
             card.endDate = alert.endsAt;
+            card.state = 'resolvedState';
+            card.severity = mappingData.resolvedSeverity;
+            card.data.panelUrl = this.transformPanelUrl(
+                alert.panelURL,
+                alert.startsAt - this.panelRangeOffset,
+                alert.endsAt
+            );
         }
         return card;
     }
 
-    private transformPanelUrl(panelUrl: string, startsAt: number, endsAt?: number): string {
-        const rangeStart = startsAt - this.panelRangeOffset;
-        const rangeEnd = endsAt ?? 'now';
-
+    private transformPanelUrl(panelUrl: string, rangeStart: number, rangeEnd: string | number = 'now'): string {
         panelUrl = panelUrl.replace('/d/', '/d-solo/').replace('viewPanel', 'panelId');
         panelUrl += '&from=' + rangeStart + '&to=' + rangeEnd + '&timezone=browser&refresh=1s';
         return panelUrl;
     }
 
-    private extractUidFromGeneratorUrl(generatorUrl: string): string {
+    private extractUid(generatorUrl: string): string {
         const uid = generatorUrl.match(/grafana\/([^/]+)/);
         return uid != null ? uid[1] : '';
     }

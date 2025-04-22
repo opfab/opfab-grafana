@@ -7,15 +7,9 @@ async function init() {
         initTable();
         initForm();
         document.querySelector('#add-button').addEventListener('click', () => {
-            const allMapped = Array.from(config.alertRules.keys()).every((uid) => config.mappings.has(uid));
-
-            if (allMapped) document.querySelector('#all-mapped-dialog').showModal();
-            else {
-                document.querySelector('#alertrule-select').setDisabledOptions(Array.from(config.mappings.keys()), true);
-                document.querySelector('#form-dialog').showModal();
-            }
+            if (!config.grafanaFolders.size) document.querySelector('#no-folders-dialog').showModal();
+            else document.querySelector('#form-dialog').showModal();
         });
-
         document.querySelector('#content').removeAttribute('hidden');
     } else document.querySelector('#no-config').removeAttribute('hidden');
 }
@@ -24,7 +18,9 @@ async function fetchConfig() {
     try {
         const response = await sendRequest(mappingServiceUrl);
         return {
-            alertRules: new Map(response.alertRules),
+            grafanaFolders: new Map(response.grafanaFolders),
+            grafanaAlertRules: new Map(response.grafanaAlertRules),
+            grafanaStructure: new Map(response.grafanaStructure),
             entities: new Map(response.entities),
             mappings: new Map(response.mappings)
         };
@@ -41,16 +37,30 @@ function initTable() {
 }
 
 function createTableRow(uid, data) {
-    const uidExists = config.alertRules.has(uid);
-    const row = createHtmlElement('tr', {id: uid});
+    const uidType = config.grafanaFolders.has(uid)
+        ? 'folder'
+        : config.grafanaAlertRules.has(uid)
+            ? 'rule'
+            : 'unknow';
+    const row = createHtmlElement('tr', {uid: uid, uidType: uidType});
 
-    const alertRuleCell = row.insertCell();
-    if (uidExists) alertRuleCell.textContent = config.alertRules.get(uid);
-    else {
-        alertRuleCell.style.cssText = 'color: red';
-        alertRuleCell.textContent = uid;
+    const folderCell = row.insertCell();
+    const ruleCell = row.insertCell();
+    if (uidType === 'folder') {
+        folderCell.textContent = config.grafanaFolders.get(uid);
+        ruleCell.textContent = '/';
+    } else if (uidType === 'rule') {
+        folderCell.textContent = config.grafanaFolders.get(config.grafanaStructure.get(uid));
+        ruleCell.textContent = config.grafanaAlertRules.get(uid);
+    } else {
+        folderCell.textContent = uid;
+        ruleCell.textContent = uid;
     }
-    row.insertCell().textContent = data.recipients.map((entityId) => config.entities.get(entityId) ?? entityId);
+
+    const recipientsCell = row.insertCell();
+    if (data.recipients?.length)
+        recipientsCell.innerHTML = data.recipients.map((entityId) => config.entities.get(entityId) ?? entityId).join('<br>');
+    else recipientsCell.textContent = '/';
 
     const firingDiv = createHtmlElement('div', {
         text: 'Firing :',
@@ -80,7 +90,7 @@ function createTableRow(uid, data) {
 
     row.insertCell().append(firingDiv, resolvedDiv);
 
-    const editButton = uidExists
+    const editButton = uidType !== 'unknow'
         ? createHtmlElement('button', {
             text: 'EDIT',
             style: 'cursor: pointer',
@@ -115,13 +125,21 @@ function createHtmlElement(tag, {text = '', style = '', ...attrs}) {
 }
 
 function tableEditClicked(event) {
-    const uid = event.target.closest('tr').getAttribute('id');
+    const uid = event.target.closest('tr').getAttribute('uid');
+    const uidType = event.target.closest('tr').getAttribute('uidType');
     const mappingData = config.mappings.get(uid);
     const formDialog = document.querySelector('#form-dialog');
+    const folderSelect = formDialog.querySelector('#folder-select');
+    const ruleSelect = formDialog.querySelector('#rule-select');
 
-    const alertRuleSelect = formDialog.querySelector('#alertrule-select');
-    alertRuleSelect.disable();
-    alertRuleSelect.setValue(uid);
+    if (uidType === 'folder') folderSelect.setValue(uid, true);
+    else {
+        folderSelect.setValue(config.grafanaStructure.get(uid), true);
+        ruleSelect.setOptions([{label: config.grafanaAlertRules.get(uid), value: uid}]);
+        ruleSelect.setValue(uid);
+    }
+    folderSelect.disable();
+    ruleSelect.disable();
 
     formDialog.querySelector('#entities-select').setValue(mappingData.recipients);
     formDialog.querySelector('#firing-sev-select').setValue(mappingData.firingSeverity);
@@ -133,7 +151,7 @@ function tableEditClicked(event) {
 async function tableDeleteClicked(event) {
     if (await confirmDelete()) {
         const row = event.target.closest('tr');
-        const uid = row.getAttribute('id');
+        const uid = row.getAttribute('uid');
         try {
             await sendRequest(mappingServiceUrl + '/' + uid, {method: 'DELETE'});
             config.mappings.delete(uid);
@@ -155,20 +173,29 @@ function confirmDelete() {
 }
 
 function updateTable(uid, data) {
-    const row = document.querySelector(`#${uid}`);
+    const row = document.querySelector(`[uid="${uid}"]`);
     const newRow = createTableRow(uid, data);
 
     row ? row.replaceWith(newRow) : document.querySelector('#mappings-tbody').append(newRow);
 }
 
 function initForm() {
-    const alertRuleOptions = Array.from(config.alertRules, ([uid, title]) => ({label: title, value: uid}));
+    const folderOptions = Array.from(config.grafanaFolders, ([uid, title]) => ({label: title, value: uid}));
     VirtualSelect.init({
-        ele: '#alertrule-select',
-        options: alertRuleOptions,
+        ele: '#folder-select',
+        options: folderOptions,
         required: true,
         showValueAsTags: true,
         enableSecureText: true
+    });
+
+    VirtualSelect.init({
+        ele: '#rule-select',
+        placeholder: 'None',
+        noOptionsText: 'No alert rules in selected folder',
+        showValueAsTags: true,
+        enableSecureText: true,
+        disabled: true
     });
 
     const entityOptions = Array.from(config.entities, ([id, name]) => ({label: name, value: id}));
@@ -176,7 +203,6 @@ function initForm() {
         ele: '#entities-select',
         options: entityOptions,
         multiple: true,
-        required: true,
         showValueAsTags: true,
         selectAllOnlyVisible: true,
         enableSecureText: true
@@ -205,6 +231,20 @@ function initForm() {
     document.querySelector('#submit-button').addEventListener('click', formSubmit);
     document.querySelector('#cancel-button').addEventListener('click', (event) => {event.target.closest('dialog').close()});
     document.querySelector('#form-dialog').addEventListener('close', formReset);
+    document.querySelector('#folder-select').addEventListener('change', (event) => {
+        const folderUid = event.target.value;
+        const ruleSelect = document.querySelector('#rule-select');
+
+        const options = config.grafanaStructure.get(folderUid)?.map((ruleUid) => ({
+            label: config.grafanaAlertRules.get(ruleUid),
+            value: ruleUid
+        })) ?? [];
+        ruleSelect.setOptions(options);
+        if (folderUid) {
+            ruleSelect.setDisabledOptions(config.mappings.keys());
+            ruleSelect.enable();
+        } else ruleSelect.disable();
+    });
 }
 
 function severityOptionRenderer(data) {
@@ -218,22 +258,25 @@ async function formSubmit(event) {
     const form = event.target.closest('form');
 
     if (VirtualSelect.validate(form)) {
-        const alertRuleUid = document.querySelector('#alertrule-select').value;
         const formData = new FormData(form);
+        const elementUid = form.querySelector('#rule-select').value ||
+            form.querySelector('#folder-select').value;
         const mappingData = {
-            recipients: formData.get('entities').split(','),
+            recipients: formData.get('entities')
+                ? formData.get('entities').split(',')
+                : [],
             firingSeverity: formData.get('firing-sev'),
             resolvedSeverity: formData.get('resolved-sev')
         };
 
         try {
-            await sendRequest(mappingServiceUrl + '/' + alertRuleUid, {
+            await sendRequest(mappingServiceUrl + '/' + elementUid, {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify(mappingData)
             });
-            config.mappings.set(alertRuleUid, mappingData);
-            updateTable(alertRuleUid, mappingData);
+            config.mappings.set(elementUid, mappingData);
+            updateTable(elementUid, mappingData);
         } catch (err) {
             console.log('Error posting mapping,', err);
         }
@@ -242,10 +285,8 @@ async function formSubmit(event) {
 }
 
 function formReset(event) {
-    const form = event.target.querySelector('form');
-    form.querySelector('#alertrule-select').enable();
-    form.querySelector('#alertrule-select').setEnabledOptions(true);
-    form.reset();
+    document.querySelector('#folder-select').enable();
+    event.target.querySelector('form').reset();
 }
 
 async function sendRequest(url, options) {
