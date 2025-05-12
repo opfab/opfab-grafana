@@ -1,13 +1,13 @@
 apiVersion: 1
 groups:
     - orgId: 1
-      name: group_test
+      name: default
       folder: Opfab/rules
       interval: 10s
       rules:
-        - uid: eee0zny1yjt34f
-          title: Node service test
-          condition: C
+        - uid: felnpmalm991cb
+          title: network-consumption-gap
+          condition: B
           data:
             - refId: A
               relativeTimeRange:
@@ -16,16 +16,16 @@ groups:
               datasourceUid: PBFA97CFB590B2093
               model:
                 disableTextWrap: false
-                editorMode: builder
-                expr: test_gauge
-                format: time_series
+                editorMode: code
+                exemplar: false
+                expr: abs(network_consumption_gw{type="2"} - ignoring(type) network_consumption_gw{type="1"})
                 fullMetaSearch: false
                 includeNullMetadata: true
-                instant: false
+                instant: true
                 intervalMs: 5000
                 legendFormat: __auto
                 maxDataPoints: 43200
-                range: true
+                range: false
                 refId: A
                 useBackend: false
             - refId: B
@@ -34,7 +34,7 @@ groups:
                 conditions:
                     - evaluator:
                         params:
-                            - 0
+                            - 2
                             - 0
                         type: gt
                       operator:
@@ -53,49 +53,19 @@ groups:
                 hide: false
                 intervalMs: 1000
                 maxDataPoints: 43200
-                reducer: max
                 refId: B
-                settings:
-                    mode: ""
-                type: reduce
-            - refId: C
-              datasourceUid: __expr__
-              model:
-                conditions:
-                    - evaluator:
-                        params:
-                            - 10
-                            - 0
-                        type: gt
-                      operator:
-                        type: and
-                      query:
-                        params: []
-                      reducer:
-                        params: []
-                        type: avg
-                      type: query
-                datasource:
-                    name: Expression
-                    type: __expr__
-                    uid: __expr__
-                expression: B
-                hide: false
-                intervalMs: 1000
-                maxDataPoints: 43200
-                refId: C
                 type: threshold
-          dashboardUid: fednc20jmmznkc
-          panelId: 1
+          dashboardUid: bej2zsisz26f4c
+          panelId: 2
           noDataState: OK
           execErrState: Error
           annotations:
-            __dashboardUid__: fednc20jmmznkc
-            __panelId__: "1"
+            __dashboardUid__: bej2zsisz26f4c
+            __panelId__: "2"
           isPaused: false
           notification_settings:
             receiver: Opfab alerting service
-            group_wait: 0s
+            group_wait: 1s
             group_interval: 1s
     - orgId: 1
       name: default
@@ -115,7 +85,7 @@ groups:
                 disableTextWrap: false
                 editorMode: builder
                 exemplar: false
-                expr: network_frequency_hertz
+                expr: network_frequency_hz
                 fullMetaSearch: false
                 includeNullMetadata: true
                 instant: false
@@ -204,7 +174,7 @@ groups:
                 disableTextWrap: false
                 editorMode: builder
                 exemplar: false
-                expr: network_frequency_hertz
+                expr: network_frequency_hz
                 fullMetaSearch: false
                 includeNullMetadata: true
                 instant: false
@@ -292,7 +262,7 @@ groups:
                 disableTextWrap: false
                 editorMode: builder
                 exemplar: false
-                expr: network_frequency_hertz
+                expr: network_frequency_hz
                 fullMetaSearch: false
                 includeNullMetadata: true
                 instant: false
@@ -383,7 +353,7 @@ groups:
                 disableTextWrap: false
                 editorMode: builder
                 exemplar: false
-                expr: network_frequency_hertz
+                expr: network_frequency_hz
                 fullMetaSearch: false
                 includeNullMetadata: true
                 instant: false
