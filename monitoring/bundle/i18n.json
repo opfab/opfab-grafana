@@ -1,6 +1,6 @@
 {
-	"alertingProcess":{
-		"title":"Grafana alerting",
-		"summary":"Summary"
+	"alertingProcess": {
+		"title": "{{title}}",
+		"summary": "Summary"
 	}
 }

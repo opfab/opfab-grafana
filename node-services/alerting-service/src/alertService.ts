@@ -45,7 +45,7 @@ export default class AlertService {
         card.processInstanceId = alert.fingerprint + alert.startsAt.toString();
         card.startDate = alert.startsAt;
         card.entityRecipients = mappingData.recipients;
-        card.title = {key: 'alertingProcess.title'};
+        card.title = {key: 'alertingProcess.title', parameters: {title: mappingData.cardTitle}};
         card.summary = {key: 'alertingProcess.summary'};
         card.data = {alertName: alert.labels.grafana_folder + '/' + alert.labels.alertname};
         if (alert.status === 'firing') {

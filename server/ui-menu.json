@@ -44,7 +44,7 @@
       "entries": [
         {
           "customMenuId": "uid_test_3",
-          "url": "/mappingAdministration/mappingScreen.html",
+          "url": "/mappingScreen/mappingScreen.html",
           "label": "menu4.entry.single",
           "linkType": "BOTH"
         }
@@ -107,7 +107,7 @@
         },
         "menu2": {
           "entry": {
-            "single": "Grafana"
+            "single": "Services monitoring"
           }
         },
         "menu3": {
@@ -132,7 +132,7 @@
         },
         "menu2": {
           "entry": {
-            "single": "Grafana"
+            "single": "Services monitoring"
           }
         },
         "menu3": {

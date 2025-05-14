@@ -62,6 +62,8 @@ function createTableRow(uid, data) {
         recipientsCell.innerHTML = data.recipients.map((entityId) => config.entities.get(entityId) ?? entityId).join('<br>');
     else recipientsCell.textContent = '/';
 
+    row.insertCell().textContent = data.cardTitle || '/';
+
     const firingDiv = createHtmlElement('div', {
         text: 'Firing :',
         style: 'display: flex; align-items: center; column-gap: 8px; margin-top: 10px; margin-bottom: 10px'
@@ -142,6 +144,7 @@ function tableEditClicked(event) {
     ruleSelect.disable();
 
     formDialog.querySelector('#entities-select').setValue(mappingData.recipients);
+    formDialog.querySelector('#title-input').value = mappingData.cardTitle;
     formDialog.querySelector('#firing-sev-select').setValue(mappingData.firingSeverity);
     formDialog.querySelector('#resolved-sev-select').setValue(mappingData.resolvedSeverity);
 
@@ -185,14 +188,15 @@ function initForm() {
         ele: '#folder-select',
         options: folderOptions,
         required: true,
+        search: true,
         showValueAsTags: true,
         enableSecureText: true
     });
 
     VirtualSelect.init({
         ele: '#rule-select',
+        search: true,
         placeholder: 'None',
-        noOptionsText: 'No alert rules in selected folder',
         showValueAsTags: true,
         enableSecureText: true,
         disabled: true
@@ -240,7 +244,7 @@ function initForm() {
             value: ruleUid
         })) ?? [];
         ruleSelect.setOptions(options);
-        if (folderUid) {
+        if (options.length) {
             ruleSelect.setDisabledOptions(config.mappings.keys());
             ruleSelect.enable();
         } else ruleSelect.disable();
@@ -265,6 +269,7 @@ async function formSubmit(event) {
             recipients: formData.get('entities')
                 ? formData.get('entities').split(',')
                 : [],
+            cardTitle: formData.get('title'),
             firingSeverity: formData.get('firing-sev'),
             resolvedSeverity: formData.get('resolved-sev')
         };

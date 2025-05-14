@@ -207,7 +207,9 @@ body {
     font-size: 13px;
 }
 
-
+*, ::after, ::before {
+    box-sizing: border-box;
+}
 
 /* SELECT FIELD STYLE */
 

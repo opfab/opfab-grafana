@@ -46,6 +46,7 @@ export default class MappingService {
     public async computeMappingData(alertRuleUid: string): Promise<MappingData | undefined> {
         const dataResult: MappingData = {
             recipients: new Array<string>(),
+            cardTitle: this.defaultMappingData.cardTitle,
             firingSeverity: this.defaultMappingData.firingSeverity,
             resolvedSeverity: this.defaultMappingData.resolvedSeverity
         };
@@ -55,6 +56,7 @@ export default class MappingService {
         path.forEach((elementUid) => {
             const data = this.mappingConfig.getMappingData(elementUid);
             if (data?.recipients) dataResult.recipients = [...new Set(dataResult.recipients.concat(data.recipients))];
+            if (data?.cardTitle) dataResult.cardTitle = data.cardTitle;
             if (data?.firingSeverity) dataResult.firingSeverity = data.firingSeverity;
             if (data?.resolvedSeverity) dataResult.resolvedSeverity = data.resolvedSeverity;
         });
