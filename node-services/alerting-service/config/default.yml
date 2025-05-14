@@ -19,5 +19,6 @@ operatorfabric:
     mapping:
       configFilePath: "mapping/config.json"
       defaultMappingData:
+        cardTitle: Grafana alerting
         firingSeverity: ALARM
         resolvedSeverity: COMPLIANT
