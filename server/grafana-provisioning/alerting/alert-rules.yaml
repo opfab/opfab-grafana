@@ -18,7 +18,7 @@ groups:
                 disableTextWrap: false
                 editorMode: code
                 exemplar: false
-                expr: abs(network_consumption_gw{type="2"} - ignoring(type) network_consumption_gw{type="1"})
+                expr: abs(power_consumption_gw{type="2"} - ignoring(type) power_consumption_gw{type="1"})
                 fullMetaSearch: false
                 includeNullMetadata: true
                 instant: true

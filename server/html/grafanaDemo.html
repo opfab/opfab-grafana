@@ -1,0 +1,17 @@
+<html>
+    <script language="javascript">
+        window.addEventListener('load', function () {
+
+            const queryString = window.location.search;
+            const urlParams = new URLSearchParams(queryString);
+            let opfabTheme = urlParams.get('opfab_theme');
+            let grafanaTheme = "dark";
+
+            if (opfabTheme == "DAY") 
+                grafanaTheme="light";
+
+            let source = "http://localhost:3000/d/bej2zsisz26f4c/alerting-service-demo?orgId=1&from=now-2m&to=now&timezone=browser&kiosk&refresh=1s&theme=" + grafanaTheme;
+            window.location.href = encodeURI(source);
+        });
+    </script>
+</html>

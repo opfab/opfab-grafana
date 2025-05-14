@@ -33,8 +33,19 @@
       "entries": [
         {
           "customMenuId": "uid_test_2",
-          "url": "/mappingAdministration/mappingScreen.html",
+          "url": "/grafanaDemo.html",
           "label": "menu3.entry.single",
+          "linkType": "BOTH"
+        }
+      ]
+    },
+    {
+      "id": "menu4",
+      "entries": [
+        {
+          "customMenuId": "uid_test_3",
+          "url": "/mappingAdministration/mappingScreen.html",
+          "label": "menu4.entry.single",
           "linkType": "BOTH"
         }
       ]
@@ -101,7 +112,12 @@
         },
         "menu3": {
           "entry": {
-            "single": "Mapping Administration"
+            "single": "Grafana alerting demo"
+          }
+        },
+        "menu4": {
+          "entry": {
+            "single": "Grafana mapping"
           }
         }
       }
@@ -121,7 +137,12 @@
         },
         "menu3": {
           "entry": {
-            "single": "Mapping Administration"
+            "single": "Grafana alerting demo"
+          }
+        },
+        "menu4": {
+          "entry": {
+            "single": "Grafana mapping"
           }
         }
       }

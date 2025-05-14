@@ -24,7 +24,7 @@ const frequencyGauge = new Gauge({
     help: 'empty'
 });
 const consumptionGauge = new Gauge({
-    name: 'network_consumption_gw',
+    name: 'power_consumption_gw',
     help: 'empty',
     labelNames: ['type']
 });
