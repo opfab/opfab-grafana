@@ -294,10 +294,16 @@ function formReset(event) {
     event.target.querySelector('form').reset();
 }
 
-async function sendRequest(url, options) {
+async function sendRequest(url, options = {}) {
+    options.headers ??= {};
+    options.headers['Authorization'] = `Bearer ${getToken()}`;
     const response = await fetch(url, options);
     if (!response.ok) throw new Error(`bad response ${response.status}`);
     if (response.status !== 204) return await response.json();
+}
+
+function getToken() {
+    return localStorage.getItem('token');
 }
 
 window.addEventListener('load', () => {

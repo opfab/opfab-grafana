@@ -2,6 +2,7 @@ grafana:
   url: "http://127.0.0.1:3000"
   contactPointName: Opfab alerting service
 operatorfabric:
+  jwk-set-uri: http://127.0.0.1:89/auth/realms/dev/protocol/openid-connect/certs
   servicesUrls:
     authToken: "http://127.0.0.1:2002/auth/token"
     cardsPublication: "http://127.0.0.1:2102"

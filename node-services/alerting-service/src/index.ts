@@ -4,6 +4,8 @@ import {getLogger} from './common/logger';
 import AlertService from './alertService';
 import MappingService from './mapping/mappingService';
 import MappingData from './mapping/mappingDataModel';
+import {expressjwt} from 'express-jwt';
+import JwksRsa from 'jwks-rsa';
 
 const port: string = config.get('operatorfabric.alerting.port');
 const app = express();
@@ -21,6 +23,18 @@ const alertService = new AlertService(
 
 app.disable('x-powered-by');
 app.use(express.json());
+app.use(
+    /^\/(?!alerts$).*/,
+    expressjwt({
+        secret: JwksRsa.expressJwtSecret({
+            cache: true,
+            rateLimit: true,
+            jwksRequestsPerMinute: 5,
+            jwksUri: config.get('operatorfabric.jwk-set-uri')
+        }),
+        algorithms: ['RS256']
+    })
+);
 
 app.post('/alerts', async (req, res) => {
     const alertNotification = req.body;
@@ -51,5 +65,15 @@ app.delete('/mapping/:uid', (req, res) => {
     res.status(204).send();
 });
 
-logger.info(`listening on port ${port}`);
-app.listen(port);
+app.use((err: any, req: any, res: any, next: any): void => {
+    if (err.name === 'UnauthorizedError') {
+        logger.warn('SECURITY : try to access resource ' + req.originalUrl + ' without valid token');
+        res.status(401).send('Invalid token');
+    } else {
+        next(err);
+    }
+});
+
+app.listen(port, () => {
+    logger.info(`listening on port ${port}`);
+});
