@@ -27,7 +27,4 @@ response=$(curl -s -X POST -d "username="$username"&password=test&grant_type=pas
 if [[ $response =~ $access_token_pattern ]] ; then
 	export token=${BASH_REMATCH[1]}
 fi
-#echo  token=$token
-
-
-
+#echo token=$token

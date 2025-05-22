@@ -1,6 +1,6 @@
 services:
   alerting:
-    image: alerting
+    image: alerting-service
     user: ${USER_ID}:${USER_GID}
     ports:
       - "2109:2109"

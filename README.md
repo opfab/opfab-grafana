@@ -2,50 +2,51 @@
 
 The goal of this project is to create a service to link [Grafana Alerting](https://grafana.com/docs/grafana/latest/alerting/) to [OperatorFabric](https://github.com/opfab/operatorfabric-core).
 
-More specifically, it adds two main functionalities:
+More specifically, it serves two main purposes:
+
 * Receiving Grafana alert nofitications through a webhook endpoint and converting them into Opfab cards
 
-* Providing a mapping system, editable via the UI, to register a set of options (such as card recipients, severity, ...) for different groups of alerts
+* Providing a mapping system, editable via the UI, that links various options (such as card recipients, severity, ...) to specific Grafana elements (folders or alert rules)
 
-## How to execute
+## How to run
 
 Assuming you have cloned the repository:
 
-1. Start OperatorFabric and the alerting service
-    * First build the alerting service's docker image
+1. Start OperatorFabric
+    ```
+    cd scripts
+    ./startServer.sh
+    ```
+
+2. Start the alerting service
+    * In a docker container
         ```
-        cd node-services/alerting-service
         ./buildDockerImage.sh
+        ./startAlertingService.sh docker
         ```
-    * Then start the dockers
+    * Or directly in the terminal (use another terminal for next steps)
         ```
-        cd ../../server
-        ./startServer.sh alerting
+        ./startAlertingService.sh
         ```
-    * Alternatively, you can start the alerting service without a docker
-        ```
-        cd server
-        ./startServer.sh
-        ```
-        ```
-        cd ../node-services/alerting-service
-        npm ci && npm start
-        ```
-        with this method, use another terminal for the next steps
 
-2. Run the following command to create a new mapping for the provided Grafana alert rule
-   ```
-   curl -X POST http://localhost:2109/mapping/eee0zny1yjt34f -H "Content-Type: application/json" -d '{"recipients":["ENTITY1_FR"]}'
-   ```
+3. Publish business config for the alerting process
+    ```
+    ./uploadBusinessConfig.sh
+    ```
 
-3. Publish bundle and configuration
-   ```
-   cd ../monitoring
-   ./loadMonitoringConfig.sh
-   ```
+You can now open [localhost:2002](http://localhost:2002/) in your browser and log in using credentials `operator1_fr` / `test`.  
+To see and manage mappings, go to [Grafana mapping](http://localhost:2002/#/businessconfigparty/uid_test_3/) page.
 
-4. Open [localhost:2002](http://localhost:2002/) in your browser and log in using credentials `operator1_fr` / `test`
+## Test the service
 
-5. To test the alerting service, you can go to `node-services/alerting-test` and run `npm ci && npm start`. This will expose custom data to Grafana, and let you control the value (To trigger an alert, set the value above 10)
+To easily test the alerting service, two scenarios are implemented in a simulator that exposes custom metrics to Grafana to trigger alerts manually.
 
-6. You can also go to [Mapping Administration](http://localhost:2002/#businessconfigparty/uid_test_2/) screen to edit mapping configuration
+1. First create a new mapping using [Grafana mapping](http://localhost:2002/#/businessconfigparty/uid_test_3/) page:
+    * As Grafana element, select `Opfab/` folder
+    * For the options select at least `Control Center FR North` in entity recipients
+
+    This mapping will affect every alert rule in the Opfab folder and its subfolders.
+
+2. To start the simulator, go to `node-services/alerting-simulator/` and run `npm ci && npm start`
+
+3. Use numbers to trigger alerts, you can see the received cards in Card Feed page

@@ -1,5 +1,5 @@
 {
-  "name": "alerting-test",
+  "name": "alerting-simulator",
   "version": "1.0.0",
   "main": "testMetric.js",
   "scripts": {
