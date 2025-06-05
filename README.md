@@ -8,7 +8,7 @@ More specifically, it serves two main purposes:
 
 * Providing a mapping system, editable via the UI, that links various options (such as card recipients, severity, ...) to specific Grafana elements (folders or alert rules)
 
-## How to run
+## How to start
 
 Assuming you have cloned the repository:
 
@@ -37,9 +37,9 @@ Assuming you have cloned the repository:
 You can now open [localhost:2002](http://localhost:2002/) in your browser and log in using credentials `operator1_fr` / `test`.  
 To see and manage mappings, go to [Grafana mapping](http://localhost:2002/#/businessconfigparty/uid_test_3/) page.
 
-## Test the service
+## Demo
 
-To easily test the alerting service, two scenarios are implemented in a simulator that exposes custom metrics to Grafana to trigger alerts manually.
+To easily demonstrate what this project does, two scenarios are implemented in a simulator that exposes custom metrics to Grafana to trigger alerts manually.
 
 1. First create a new mapping using [Grafana mapping](http://localhost:2002/#/businessconfigparty/uid_test_3/) page:
     * As Grafana element, select `Opfab/` folder
@@ -50,3 +50,7 @@ To easily test the alerting service, two scenarios are implemented in a simulato
 2. To start the simulator, go to `node-services/alerting-simulator/` and run `npm ci && npm start`
 
 3. Use numbers to trigger alerts, you can see the received cards in Card Feed page
+
+## API Testing
+
+To run the tests (after following How to start), use the script `runKarateTests.sh` in `scripts` directory.
