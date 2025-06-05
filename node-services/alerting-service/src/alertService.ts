@@ -34,7 +34,7 @@ export default class AlertService {
             this.logger.warn(`Card not sent: no recipients found for alert rule '${alert.ruleUid}'`);
             return;
         }
-        sendCard(card);
+        await sendCard(card);
     }
 
     private async buildCard(alert: any): Promise<any> {
@@ -47,7 +47,7 @@ export default class AlertService {
         card.entityRecipients = mappingData.recipients;
         card.title = {key: 'alertingProcess.title', parameters: {title: mappingData.cardTitle}};
         card.summary = {key: 'alertingProcess.summary'};
-        card.data = {alertName: alert.labels.grafana_folder + '/' + alert.labels.alertname};
+        card.data = {};
         if (alert.status === 'firing') {
             card.state = 'firingState';
             card.severity = mappingData.firingSeverity;
@@ -70,7 +70,8 @@ export default class AlertService {
         return card;
     }
 
-    private transformPanelUrl(panelUrl: string, rangeStart: number, rangeEnd: string | number = 'now'): string {
+    private transformPanelUrl(panelUrl: string | undefined, rangeStart: number, rangeEnd: string | number = 'now'): string | undefined {
+        if (!panelUrl) return;
         panelUrl = panelUrl.replace('/d/', '/d-solo/').replace('viewPanel', 'panelId');
         panelUrl += '&from=' + rangeStart + '&to=' + rangeEnd + '&timezone=browser&refresh=1s';
         return panelUrl;
