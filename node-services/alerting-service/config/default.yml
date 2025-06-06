@@ -1,6 +1,8 @@
 grafana:
   url: "http://127.0.0.1:3000"
-  contactPointName: Opfab alerting service
+  contactPoint:
+    name: Opfab alerting service
+    AuthCredentials: grafana:test
 operatorfabric:
   jwk-set-uri: http://127.0.0.1:89/auth/realms/dev/protocol/openid-connect/certs
   servicesUrls:

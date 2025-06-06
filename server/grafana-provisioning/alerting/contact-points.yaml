@@ -8,5 +8,7 @@ contactPoints:
         type: webhook
         settings:
           httpMethod: POST
+          password: test
           url: http://172.17.0.1:2109/alerts
+          username: grafana
         disableResolveMessage: false

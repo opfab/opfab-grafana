@@ -19,7 +19,7 @@ export default class MappingService {
             (await getFolders()).map(async (folder) => [folder.uid, await this.getFolderName(folder.uid)])
         );
         const grafanaAlertRules = (await getAlertRules())
-            .filter((rule) => rule.notification_settings?.receiver === config.get('grafana.contactPointName'))
+            .filter((rule) => rule.notification_settings?.receiver === config.get('grafana.contactPoint.name'))
             .map((rule) => {
                 grafanaStructure.set(rule.uid, rule.folderUID);
                 grafanaStructure.get(rule.folderUID)?.push(rule.uid) ??

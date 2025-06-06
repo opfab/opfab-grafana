@@ -10,6 +10,7 @@ import JwksRsa from 'jwks-rsa';
 const port: string = config.get('operatorfabric.alerting.port');
 const app = express();
 const logger = getLogger();
+const grafanaCredentialsEncoded = Buffer.from(config.get('grafana.contactPoint.AuthCredentials')).toString('base64');
 
 const mappingService = new MappingService(
     config.get('operatorfabric.alerting.mapping.configFilePath'),
@@ -37,6 +38,10 @@ app.use(
 );
 
 app.post('/alerts', async (req, res) => {
+    if (req.headers.authorization !== `Basic ${grafanaCredentialsEncoded}`) {
+        res.status(401).send();
+        return;
+    }
     const alertNotification = req.body;
     logger.info(JSON.stringify(alertNotification, null, 4));
 
