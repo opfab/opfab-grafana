@@ -71,7 +71,7 @@ const rl = readline.createInterface({
 });
 
 function getInput() {
-    console.log(`\n-- Alert trigger --\n\nNetwork frequency (${menuStates.frequency}):\n1 - Normal state\n2 - High\n3 - Very high\n4 - Low\n5 - Very low\n\nNetwork consumption (${menuStates.consumption}):\n6 - Normal state\n7 - High\n8 - Low`);
+    console.log(`\n-- Simulator control --\n\nNetwork frequency (current state: ${menuStates.frequency}):\n1 - Normal state\n2 - High\n3 - Very high\n4 - Low\n5 - Very low\n\nNetwork consumption (current state: ${menuStates.consumption}):\n6 - Normal state\n7 - High\n8 - Low`);
     rl.question('\n> ', (input) => {
         const choice = Number(input);
         switch (choice) {
@@ -97,6 +97,8 @@ function getInput() {
                 consumptionGap = -3;
                 menuStates.consumption = 'Low';
                 break;
+            default:
+                console.log('Wrong input');
         }
         getInput();
     });

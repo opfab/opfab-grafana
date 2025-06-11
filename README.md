@@ -39,17 +39,17 @@ To see and manage mappings, go to [Grafana mapping](http://localhost:2002/#/busi
 
 ## Demo
 
-To easily demonstrate what this project does, two scenarios are implemented in a simulator that exposes custom data to Grafana to trigger alerts manually.
+To easily demonstrate what this project does, two example scenarios are included using a simulator that generates custom data for Grafana, along with preconfigured Grafana panels and alert rules.
 
 1. First create a new mapping using [Grafana mapping](http://localhost:2002/#/businessconfigparty/uid_test_3/) page:
     * As Grafana element, select `Opfab/` folder
     * For the options select at least `Control Center FR North` in entity recipients
 
-    These options will affect every alert rule in the Opfab folder and its subfolders.
+    The selected options will affect every alert triggered by alert rules in the Opfab folder and its subfolders.
 
 2. To start the simulator, go to `node-services/alerting-simulator/` and run `npm ci && npm start`
 
-3. Use numbers to trigger alerts, you can see the received cards in Card Feed page
+3. You will now see a menu in the terminal, it allows you to change the state of each scenario independently. Enter the corresponding number to switch to the desired state, any other state than normal will trigger an alert.
 
 ## API Testing
 
