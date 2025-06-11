@@ -2,15 +2,15 @@ import config from 'config';
 import {getAlertRule, getAlertRules, getFolder, getFolders} from '../common/grafanaInterface';
 import {getEntities} from '../common/opfabInterface';
 import MappingConfig from './mappingConfig';
-import MappingData from './mappingDataModel';
+import CardOptions from './cardOptionsModel';
 
 export default class MappingService {
     private mappingConfig: MappingConfig;
-    private defaultMappingData: any;
+    private defaultCardOptions: any;
 
-    constructor(filePath: string, defaultMappingData: any) {
+    constructor(filePath: string, defaultCardOptions: any) {
         this.mappingConfig = new MappingConfig(filePath);
-        this.defaultMappingData = defaultMappingData;
+        this.defaultCardOptions = defaultCardOptions;
     }
 
     public async getConfig(): Promise<any> {
@@ -43,24 +43,24 @@ export default class MappingService {
         return path + folder.title + '/';
     }
 
-    public async computeMappingData(alertRuleUid: string): Promise<MappingData | undefined> {
-        const dataResult: MappingData = {
+    public async computeCardOptions(alertRuleUid: string): Promise<CardOptions | undefined> {
+        const computedOptions: CardOptions = {
             recipients: new Array<string>(),
-            cardTitle: this.defaultMappingData.cardTitle,
-            firingSeverity: this.defaultMappingData.firingSeverity,
-            resolvedSeverity: this.defaultMappingData.resolvedSeverity
+            title: this.defaultCardOptions.title,
+            firingSeverity: this.defaultCardOptions.firingSeverity,
+            resolvedSeverity: this.defaultCardOptions.resolvedSeverity
         };
         const path = await this.getPath(alertRuleUid);
         if (!path) return;
 
         path.forEach((elementUid) => {
-            const data = this.mappingConfig.getMappingData(elementUid);
-            if (data?.recipients) dataResult.recipients = [...new Set(dataResult.recipients.concat(data.recipients))];
-            if (data?.cardTitle) dataResult.cardTitle = data.cardTitle;
-            if (data?.firingSeverity) dataResult.firingSeverity = data.firingSeverity;
-            if (data?.resolvedSeverity) dataResult.resolvedSeverity = data.resolvedSeverity;
+            const options = this.mappingConfig.getCardOptions(elementUid);
+            if (options?.recipients) computedOptions.recipients = [...new Set(computedOptions.recipients.concat(options.recipients))];
+            if (options?.title) computedOptions.title = options.title;
+            if (options?.firingSeverity) computedOptions.firingSeverity = options.firingSeverity;
+            if (options?.resolvedSeverity) computedOptions.resolvedSeverity = options.resolvedSeverity;
         });
-        return dataResult;
+        return computedOptions;
     }
 
     private async getPath(alertRuleUid: string): Promise<string[] | undefined> {
@@ -72,8 +72,8 @@ export default class MappingService {
         return [...parentFoldersUid, folderUid, alertRuleUid];
     }
 
-    public setMapping(elementUid: string, data: MappingData): void {
-        this.mappingConfig.setMapping(elementUid, data);
+    public setMapping(elementUid: string, cardOptions: CardOptions): void {
+        this.mappingConfig.setMapping(elementUid, cardOptions);
     }
 
     public deleteMapping(elementUid: string): void {

@@ -1,9 +1,9 @@
 import fs from 'fs';
-import MappingData from './mappingDataModel';
+import CardOptions from './cardOptionsModel';
 
 export default class MappingConfig {
     private filePath: string;
-    private mappings: Map<string, MappingData>;
+    private mappings: Map<string, CardOptions>;
 
     constructor(filePath: string) {
         this.filePath = filePath;
@@ -25,16 +25,16 @@ export default class MappingConfig {
         fs.writeFileSync(this.filePath, JSON.stringify(configJson));
     }
 
-    public getAllMappings(): Map<string, MappingData> {
+    public getAllMappings(): Map<string, CardOptions> {
         return this.mappings;
     }
 
-    public getMappingData(elementUid: string): MappingData | undefined {
+    public getCardOptions(elementUid: string): CardOptions | undefined {
         return this.mappings.get(elementUid);
     }
 
-    public setMapping(elementUid: string, data: MappingData): void {
-        this.mappings.set(elementUid, data);
+    public setMapping(elementUid: string, cardOptions: CardOptions): void {
+        this.mappings.set(elementUid, cardOptions);
         this.save();
     }
 

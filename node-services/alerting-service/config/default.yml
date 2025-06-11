@@ -21,7 +21,7 @@ operatorfabric:
     port: 2109
     mapping:
       configFilePath: "mapping/config.json"
-      defaultMappingData:
-        cardTitle: Grafana alerting
+      defaultCardOptions:
+        title: Grafana alerting
         firingSeverity: ALARM
         resolvedSeverity: COMPLIANT

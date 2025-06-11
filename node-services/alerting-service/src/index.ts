@@ -3,7 +3,7 @@ import express from 'express';
 import {getLogger} from './common/logger';
 import AlertService from './alertService';
 import MappingService from './mapping/mappingService';
-import MappingData from './mapping/mappingDataModel';
+import CardOptions from './mapping/cardOptionsModel';
 import {expressjwt} from 'express-jwt';
 import JwksRsa from 'jwks-rsa';
 
@@ -14,7 +14,7 @@ const grafanaCredentialsEncoded = Buffer.from(config.get('grafana.contactPoint.A
 
 const mappingService = new MappingService(
     config.get('operatorfabric.alerting.mapping.configFilePath'),
-    config.get('operatorfabric.alerting.mapping.defaultMappingData')
+    config.get('operatorfabric.alerting.mapping.defaultCardOptions')
 );
 const alertService = new AlertService(
     config.get('operatorfabric.alerting.cardTemplate'),
@@ -57,9 +57,9 @@ app.get('/mapping', async (req, res) => {
 
 app.post('/mapping/:uid', (req, res) => {
     const elementUid: string = req.params.uid;
-    const data: MappingData = req.body;
+    const cardOptions: CardOptions = req.body;
 
-    mappingService.setMapping(elementUid, data);
+    mappingService.setMapping(elementUid, cardOptions);
     res.status(204).send();
 });
 

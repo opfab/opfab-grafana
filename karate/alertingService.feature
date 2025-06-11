@@ -8,11 +8,11 @@ Feature: Alerting service
     Scenario: Post new mapping
 
         * def uid = 'felnpmalm991cb'
-        * def mappingData =
+        * def cardOptions =
         """
         {
             "recipients" : ["ENTITY1_FR"],
-            "cardTitle": "karate test",
+            "title": "karate test",
             "firingSeverity" : "ACTION",
             "resolvedSeverity" : "INFORMATION"
         }
@@ -20,7 +20,7 @@ Feature: Alerting service
 
         Given url alertingServiceUrl + 'mapping/' + uid
         And header Authorization = 'Bearer ' + token
-        And request mappingData
+        And request cardOptions
         When method post
         Then status 204
 
@@ -29,7 +29,7 @@ Feature: Alerting service
         When method get
         Then status 200
         * def mapping = response.mappings.filter(x => x[0] == uid)[0]
-        * match mapping[1] == mappingData
+        * match mapping[1] == cardOptions
 
     Scenario: Send alert without authentication
 

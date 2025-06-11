@@ -1,6 +1,6 @@
-export default interface MappingData {
+export default interface CardOptions {
     recipients: string[];
-    cardTitle: string;
+    title: string;
     firingSeverity: string;
     resolvedSeverity: string;
 }

@@ -31,12 +31,12 @@ async function fetchConfig() {
 
 function initTable() {
     const tbody = document.querySelector('#mappings-tbody');
-    config.mappings.forEach((data, uid) => {
-        tbody.append(createTableRow(uid, data));
+    config.mappings.forEach((cardOptions, uid) => {
+        tbody.append(createTableRow(uid, cardOptions));
     });
 }
 
-function createTableRow(uid, data) {
+function createTableRow(uid, cardOptions) {
     const uidType = config.grafanaFolders.has(uid)
         ? 'folder'
         : config.grafanaAlertRules.has(uid)
@@ -58,22 +58,22 @@ function createTableRow(uid, data) {
     }
 
     const recipientsCell = row.insertCell();
-    if (data.recipients?.length)
-        recipientsCell.innerHTML = data.recipients.map((entityId) => config.entities.get(entityId) ?? entityId).join('<br>');
+    if (cardOptions.recipients?.length)
+        recipientsCell.innerHTML = cardOptions.recipients.map((entityId) => config.entities.get(entityId) ?? entityId).join('<br>');
     else recipientsCell.textContent = '/';
 
-    row.insertCell().textContent = data.cardTitle || '/';
+    row.insertCell().textContent = cardOptions.title || '/';
 
     const firingDiv = createHtmlElement('div', {
         text: 'Firing :',
         style: 'display: flex; align-items: center; column-gap: 8px; margin-top: 10px; margin-bottom: 10px'
     });
-    if (data.firingSeverity) {
+    if (cardOptions.firingSeverity) {
         firingDiv.append(
             createHtmlElement('div', {
-                style: `min-width: 10px; min-height: 25px; background-color: var(--opfab-color-severity-${data.firingSeverity.toLowerCase()})`
+                style: `min-width: 10px; min-height: 25px; background-color: var(--opfab-color-severity-${cardOptions.firingSeverity.toLowerCase()})`
             }),
-            data.firingSeverity
+            cardOptions.firingSeverity
         );
     } else firingDiv.textContent += ' /';
 
@@ -81,12 +81,12 @@ function createTableRow(uid, data) {
         text: 'Resolved :',
         style: 'display: flex; align-items: center; column-gap: 8px; margin-bottom: 10px'
     });
-    if (data.resolvedSeverity) {
+    if (cardOptions.resolvedSeverity) {
         resolvedDiv.append(
             createHtmlElement('div', {
-                style: `min-width: 10px; min-height: 25px; background-color: var(--opfab-color-severity-${data.resolvedSeverity.toLowerCase()})`
+                style: `min-width: 10px; min-height: 25px; background-color: var(--opfab-color-severity-${cardOptions.resolvedSeverity.toLowerCase()})`
             }),
-            data.resolvedSeverity
+            cardOptions.resolvedSeverity
         );
     } else resolvedDiv.textContent += ' /';
 
@@ -129,7 +129,7 @@ function createHtmlElement(tag, {text = '', style = '', ...attrs}) {
 function tableEditClicked(event) {
     const uid = event.target.closest('tr').getAttribute('uid');
     const uidType = event.target.closest('tr').getAttribute('uidType');
-    const mappingData = config.mappings.get(uid);
+    const cardOptions = config.mappings.get(uid);
     const formDialog = document.querySelector('#form-dialog');
     const folderSelect = formDialog.querySelector('#folder-select');
     const ruleSelect = formDialog.querySelector('#rule-select');
@@ -143,10 +143,10 @@ function tableEditClicked(event) {
     folderSelect.disable();
     ruleSelect.disable();
 
-    formDialog.querySelector('#entities-select').setValue(mappingData.recipients);
-    formDialog.querySelector('#title-input').value = mappingData.cardTitle;
-    formDialog.querySelector('#firing-sev-select').setValue(mappingData.firingSeverity);
-    formDialog.querySelector('#resolved-sev-select').setValue(mappingData.resolvedSeverity);
+    formDialog.querySelector('#entities-select').setValue(cardOptions.recipients);
+    formDialog.querySelector('#title-input').value = cardOptions.title;
+    formDialog.querySelector('#firing-sev-select').setValue(cardOptions.firingSeverity);
+    formDialog.querySelector('#resolved-sev-select').setValue(cardOptions.resolvedSeverity);
 
     formDialog.showModal();
 }
@@ -175,9 +175,9 @@ function confirmDelete() {
     });
 }
 
-function updateTable(uid, data) {
+function updateTable(uid, cardOptions) {
     const row = document.querySelector(`[uid="${uid}"]`);
-    const newRow = createTableRow(uid, data);
+    const newRow = createTableRow(uid, cardOptions);
 
     row ? row.replaceWith(newRow) : document.querySelector('#mappings-tbody').append(newRow);
 }
@@ -239,22 +239,22 @@ function initForm() {
         const folderUid = event.target.value;
         const ruleSelect = document.querySelector('#rule-select');
 
-        const options = config.grafanaStructure.get(folderUid)?.map((ruleUid) => ({
+        const ruleOptions = config.grafanaStructure.get(folderUid)?.map((ruleUid) => ({
             label: config.grafanaAlertRules.get(ruleUid),
             value: ruleUid
         })) ?? [];
-        ruleSelect.setOptions(options);
-        if (options.length) {
+        ruleSelect.setOptions(ruleOptions);
+        if (ruleOptions.length) {
             ruleSelect.setDisabledOptions(config.mappings.keys());
             ruleSelect.enable();
         } else ruleSelect.disable();
     });
 }
 
-function severityOptionRenderer(data) {
+function severityOptionRenderer(option) {
     return `<div style="display: flex; align-items: center; column-gap: 8px">
-                <div style="min-width: 10px; min-height: 25px; background-color: var(--opfab-color-severity-${data.value.toLowerCase()})"></div>
-                ${data.label}
+                <div style="min-width: 10px; min-height: 25px; background-color: var(--opfab-color-severity-${option.value.toLowerCase()})"></div>
+                ${option.label}
             </div>`;
 }
 
@@ -265,11 +265,11 @@ async function formSubmit(event) {
         const formData = new FormData(form);
         const elementUid = form.querySelector('#rule-select').value ||
             form.querySelector('#folder-select').value;
-        const mappingData = {
+        const cardOptions = {
             recipients: formData.get('entities')
                 ? formData.get('entities').split(',')
                 : [],
-            cardTitle: formData.get('title'),
+            title: formData.get('title'),
             firingSeverity: formData.get('firing-sev'),
             resolvedSeverity: formData.get('resolved-sev')
         };
@@ -278,10 +278,10 @@ async function formSubmit(event) {
             await sendRequest(mappingServiceUrl + '/' + elementUid, {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify(mappingData)
+                body: JSON.stringify(cardOptions)
             });
-            config.mappings.set(elementUid, mappingData);
-            updateTable(elementUid, mappingData);
+            config.mappings.set(elementUid, cardOptions);
+            updateTable(elementUid, cardOptions);
         } catch (err) {
             console.log('Error posting mapping,', err);
         }

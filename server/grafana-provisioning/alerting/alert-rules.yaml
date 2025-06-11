@@ -2,11 +2,11 @@ apiVersion: 1
 groups:
     - orgId: 1
       name: default
-      folder: Opfab/rules
+      folder: Opfab/rules/network-consumption
       interval: 10s
       rules:
         - uid: felnpmalm991cb
-          title: network-consumption-gap
+          title: forecast gap
           condition: B
           data:
             - refId: A

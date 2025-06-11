@@ -38,19 +38,19 @@ export default class AlertService {
     }
 
     private async buildCard(alert: any): Promise<any> {
-        const mappingData = await this.mappingService.computeMappingData(alert.ruleUid);
-        if (!mappingData?.recipients.length) return;
+        const cardOptions = await this.mappingService.computeCardOptions(alert.ruleUid);
+        if (!cardOptions?.recipients.length) return;
         const card = {...this.cardTemplate};
 
         card.processInstanceId = alert.fingerprint + alert.startsAt.toString();
         card.startDate = alert.startsAt;
-        card.entityRecipients = mappingData.recipients;
-        card.title = {key: 'alertingProcess.title', parameters: {title: mappingData.cardTitle}};
+        card.entityRecipients = cardOptions.recipients;
+        card.title = {key: 'alertingProcess.title', parameters: {title: cardOptions.title}};
         card.summary = {key: 'alertingProcess.summary'};
         card.data = {};
         if (alert.status === 'firing') {
             card.state = 'firingState';
-            card.severity = mappingData.firingSeverity;
+            card.severity = cardOptions.firingSeverity;
             card.data.panelUrl = this.transformPanelUrl(alert.panelURL, alert.startsAt - this.panelRangeOffset);
             card.data.archivePanelUrl = this.transformPanelUrl(
                 alert.panelURL,
@@ -60,7 +60,7 @@ export default class AlertService {
         } else {
             card.endDate = alert.endsAt;
             card.state = 'resolvedState';
-            card.severity = mappingData.resolvedSeverity;
+            card.severity = cardOptions.resolvedSeverity;
             card.data.panelUrl = this.transformPanelUrl(
                 alert.panelURL,
                 alert.startsAt - this.panelRangeOffset,
